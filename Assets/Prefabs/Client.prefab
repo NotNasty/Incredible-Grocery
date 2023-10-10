@@ -152,3 +152,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPositionForOrdering: {fileID: 0}
+  cloudPrefab: {fileID: 432658405935377418, guid: 7f02d9be9ccc11348bdaf77aa1a32700, type: 3}

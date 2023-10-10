@@ -5,6 +5,8 @@ public class ClientAnimationManager : MonoBehaviour
 {
     private Animator _animator;
 
+    private const string IS_WAITING_PARAM = "isWaiting";
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -12,7 +14,6 @@ public class ClientAnimationManager : MonoBehaviour
 
     public void StartWaiting()
     {
-        //Debug.Log("StartWaiting");
-        _animator.SetBool("isWaiting", true);
+        _animator.SetBool(IS_WAITING_PARAM, true);
     }
 }
