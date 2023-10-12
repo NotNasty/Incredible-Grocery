@@ -276,5 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de37c03685c6c834f8149247eb3ee25a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minCountOfOrders: 1
+  _maxCountOfOrders: 3
   orderPrefab: {fileID: 8617611717582350738, guid: 2d065d7b4534b2242bb09a201fdae1c0, type: 3}
   orderGridContent: {fileID: 2517296636589126454}

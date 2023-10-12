@@ -3,34 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
+using System;
+using System.ComponentModel;
 
-public class Storage : MonoBehaviour
+namespace IncredibleGrocery
 {
-    [SerializeField] private List<ProductSO> products;
-    [SerializeField] private Transform StorageGridContent;
-    [SerializeField] private GameObject ProductItem;
-
-    public static Storage Instance;
-
-    private void Awake()
+    public class Storage : MonoBehaviour
     {
-        Instance = this;
-    }
+        [SerializeField] private List<ProductSO> products;
+        [SerializeField] private Transform StorageGridContent;
+        [SerializeField] private ProductButton ProductItem;
+        public int DelayOfAppearing;
+        public event Action<bool> NeededCountOfProductsChecked;
+        public static BindingList<ProductSO> SelectedProducts = new BindingList<ProductSO>();
 
-    public List<ProductSO> Products
-    {
-        get => products;
-        private set => products = value;
-    }
-
-    public void ShowStorage()
-    {
-        foreach (ProductSO product in Products)
+        public List<ProductSO> Products
         {
-            GameObject productButton = Instantiate(ProductItem, StorageGridContent);
-            productButton.GetComponentInChildren<Image>().sprite = product.ProductImage;
-            //productButton.sp
+            get => products;
+            private set => products = value;
+        }
+        
+        public void SetActive(bool enabled)
+        {
+            gameObject.SetActive(enabled);
+        }
 
+        public void AddProductsButton()
+        {
+            foreach (ProductSO product in Products)
+            {
+                ProductButton productButton = Instantiate(ProductItem, StorageGridContent);
+                productButton.SetProduct(product);
+            }
         }
     }
 }

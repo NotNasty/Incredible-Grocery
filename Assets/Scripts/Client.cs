@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace IncredibleGrocery
@@ -6,7 +8,7 @@ namespace IncredibleGrocery
 
     public class Client : MonoBehaviour
     {
-        public static event Action MakingOrder;
+        public static event Action<CloudManager> MakingOrder;
 
         [SerializeField] private Transform targetPositionForOrdering;
         [SerializeField] private CloudManager cloudPrefab;
@@ -36,17 +38,21 @@ namespace IncredibleGrocery
             }
             else
             {
-                MakeOrder();
+                OrderAndWait();
             }
         }
 
-        private void MakeOrder()
+        private void OrderAndWait()
         {
             _isWalking = false;
             _animationManager.StartWaiting();
             var cloud = Instantiate(cloudPrefab, transform);
-            IOrderMaker orderMaker = new OrderMaker(cloud);
-            orderMaker.GenerateOrder();
+            MakingOrder?.Invoke(cloud);
+        }
+
+        private void CheckOrder()
+        {
+            
         }
     }
 }
