@@ -1,19 +1,72 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace IncredibleGrocery
 {
     public class EntryPoint : MonoBehaviour
     {
-        [SerializeField] private GameObject storagePrefab;
-        [SerializeField] private Transform storageParent;
+        [Header("Client")]
+        [SerializeField] private GameObject clientPrefab;
+        [SerializeField] private Transform targetPositionForOrdering;
 
-        private void Start()
+        [Header("Storage")]
+        [SerializeField] private SellButton sellButton;
+        [SerializeField] private Storage storageView;
+
+        [Header("Money")]
+        [SerializeField] private MoneyView moneyView;
+
+        private MoneyManager _moneyManager;
+        private StoragePresenter _storagePresenter;
+        private Client _client;
+        private ShopStateEnum _shopState;
+
+        private void Awake()
         {
-            GameObject storage = Instantiate(storagePrefab, storageParent);
-            var storageView = storage.GetComponent<Storage>();
-            StoragePresenter storagePresenter = new StoragePresenter(storageView);
+            Init();
+            _storagePresenter = new StoragePresenter(storageView);
+            _moneyManager = new MoneyManager();
+            _shopState = ShopStateEnum.NoClient;
         }
+
+        private void OnEnable() 
+        {
+            Client.LeftFromShop += OnClientLeft;
+        }
+
+        private void Init()
+        {
+            moneyView.Init();
+            storageView.Init();
+            sellButton.Init();
+        }
+
+        private void Update()
+        {
+            if (_shopState == ShopStateEnum.NoClient)
+            {
+                _client = Instantiate(clientPrefab).GetComponent<Client>();
+                _client.Init(targetPositionForOrdering.position, _moneyManager);
+                _shopState = ShopStateEnum.HaveClient;
+            }
+            
+        }
+
+        public async void OnClientLeft()
+        {
+            await Task.Delay(1000);
+            _shopState = ShopStateEnum.NoClient;
+        }
+
+        private void  OnDisable()
+        {
+            Client.LeftFromShop -= OnClientLeft;
+        }
+    }
+
+    public enum ShopStateEnum
+    {
+        HaveClient,
+        NoClient
     }
 }

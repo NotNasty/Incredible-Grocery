@@ -19,10 +19,11 @@ namespace IncredibleGrocery
         {
             _storage = storage;
             SelectedProducts.ListChanged += OnSelectProduct;
-            Client.MakingOrder += GenerateOrder;
+            Client.MakingOrder += OnMakingOrder;
+            SellButton.SellButtonClicked += HideStorage;
         }
 
-        public void GenerateOrder(CloudManager cloudManager)
+        public HashSet<ProductSO> OnMakingOrder(OrderCloud cloudManager)
         {
             _productsInOrder = UnityEngine.Random.Range(cloudManager.MinCountOfOrders, cloudManager.MaxCountOfOrders);
             var taken = new HashSet<ProductSO>();
@@ -34,20 +35,23 @@ namespace IncredibleGrocery
                 if (taken.Count > previousTakenCount)
                     cloudManager.AddOrder(_storage.Products[pickedUpProduct]);
             }
-            DelayOrderEnding(cloudManager);
+            OnOrderEnding(cloudManager);
+            return taken;
         }
 
-        private async void DelayOrderEnding(CloudManager cloudManager)
+        private async void OnOrderEnding(OrderCloud cloudManager)
         {
             await Task.Delay(_storage.DelayOfAppearing * 1000);
-            _storage.AddProductsButton();
+            //SelectedProducts.Clear();
+            _storage.UncheckAllProducts();
             _storage.SetActive(true);
             cloudManager.RemoveCloud();
         }
 
         private void OnSelectProduct(object sender, ListChangedEventArgs e)
         {
-            if (e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
+            if (_productsInOrder> 0 && 
+            e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
             {
                 var selectedProducts = sender as BindingList<ProductSO>;
                 NeededCountOfProductsChecked?.Invoke(selectedProducts is not null
@@ -55,10 +59,16 @@ namespace IncredibleGrocery
             }
         }
 
+        public void HideStorage()
+        {
+            _storage.SetActive(false);
+        }
+
         public void Dispose()
         {
             SelectedProducts.ListChanged -= OnSelectProduct;
-            Client.MakingOrder -= GenerateOrder;
+            Client.MakingOrder -= OnMakingOrder;
+            SellButton.SellButtonClicked -= HideStorage;
         }
     }
 }

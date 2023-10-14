@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace IncredibleGrocery
 {
-    public class CloudManager : MonoBehaviour
+    public class OrderCloud : MonoBehaviour
     {
         [SerializeField] private int _minCountOfOrders;
         [SerializeField] private int _maxCountOfOrders;
@@ -11,11 +11,12 @@ namespace IncredibleGrocery
         [SerializeField] private Transform orderGridContent;
 
         private Animator _animator;
+        private const string DISAPPEAR_ANIM = "Disappearing";
 
         public int MinCountOfOrders { get => _minCountOfOrders; }
         public int MaxCountOfOrders { get => _maxCountOfOrders; }
 
-        private void Start() 
+        private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
         }
@@ -26,9 +27,15 @@ namespace IncredibleGrocery
             orderItem.GetComponent<Image>().sprite = product.ProductImage;
         }
 
+        public void AddReaction(Sprite reaction)
+        {
+            GameObject orderItem = Instantiate(orderPrefab, orderGridContent);
+            orderItem.GetComponent<Image>().sprite = reaction;
+        }
+
         public void RemoveCloud()
         {
-            _animator.Play("Disappearing");
+            _animator.Play(DISAPPEAR_ANIM);
         }
     }
 }

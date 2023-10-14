@@ -9,17 +9,15 @@ namespace IncredibleGrocery
     public class ProductButton : MonoBehaviour
     {
         private ProductSO _product;
+        private Toggle _toggle;
         private Image _image;
         private float TRANSPARENT_LEVEL = .3f;
 
-        private void Awake()
-        {
-            _image = GetComponent<Image>();
-        }
-
         public void SetProduct(ProductSO product)
         {
+            _image = GetComponent<Image>();
             _product = product;
+            _toggle = GetComponent<Toggle>();
             _image.sprite = product.ProductImage;
         }
 
@@ -35,6 +33,11 @@ namespace IncredibleGrocery
             {
                 StoragePresenter.SelectedProducts.Remove(_product);
             }
+        }
+
+        public void UncheckProduct()
+        {
+            _toggle.isOn = false;
         }
     }
 }
