@@ -16,6 +16,10 @@ namespace IncredibleGrocery
         [Header("Money")]
         [SerializeField] private MoneyView moneyView;
 
+        [Header("UI")]
+        [SerializeField] private SettingsButton settingsButton;
+        [SerializeField] private SettingsPanel settingsPanel;
+
         private MoneyManager _moneyManager;
         private StoragePresenter _storagePresenter;
         private Client _client;
@@ -39,6 +43,8 @@ namespace IncredibleGrocery
             moneyView.Init();
             storageView.Init();
             sellButton.Init();
+            settingsPanel.Init();
+            settingsButton.Init(settingsPanel);
         }
 
         private void Update()
