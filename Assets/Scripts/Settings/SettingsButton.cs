@@ -26,6 +26,7 @@ namespace IncredibleGrocery
         private void OnClick()
         {
             _settingsPanel.SetActive(true);
+            EventBus.Instance.OnButtonClicked();
         }
 
         private void OnDisable()

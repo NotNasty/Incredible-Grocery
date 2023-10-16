@@ -20,6 +20,9 @@ namespace IncredibleGrocery
         [SerializeField] private SettingsButton settingsButton;
         [SerializeField] private SettingsPanel settingsPanel;
 
+        [Header("Audio Manager")]
+        [SerializeField] private AudioManager audioManager;
+
         private MoneyManager _moneyManager;
         private StoragePresenter _storagePresenter;
         private Client _client;
@@ -31,6 +34,7 @@ namespace IncredibleGrocery
             _storagePresenter = new StoragePresenter(storageView);
             _moneyManager = new MoneyManager();
             _shopState = ShopStateEnum.NoClient;
+            audioManager.PlayMusic();
         }
 
         private void OnEnable() 
@@ -40,6 +44,7 @@ namespace IncredibleGrocery
 
         private void Init()
         {
+            audioManager.Init();
             moneyView.Init();
             storageView.Init();
             sellButton.Init();

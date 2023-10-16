@@ -23,6 +23,10 @@ namespace IncredibleGrocery
         public void AddToBalance(int income)
         {
             Money += income;
+            if (income > 0)
+            {
+                EventBus.Instance.OnMoneyPaid();
+            }
         }
     }
 }

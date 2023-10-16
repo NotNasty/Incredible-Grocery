@@ -42,7 +42,6 @@ namespace IncredibleGrocery
         private async void OnOrderEnding(OrderCloud cloudManager)
         {
             await Task.Delay(_storage.DelayOfAppearing * 1000);
-            //SelectedProducts.Clear();
             _storage.UncheckAllProducts();
             _storage.SetActive(true);
             cloudManager.RemoveCloud();

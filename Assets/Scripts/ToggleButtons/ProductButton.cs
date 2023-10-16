@@ -13,6 +13,12 @@ namespace IncredibleGrocery
         private Image _image;
         private float TRANSPARENT_LEVEL = .3f;
 
+
+        private void OnEnable()
+        {
+            _toggle?.onValueChanged.AddListener(OnToggleValueChanged);
+        }
+
         public void SetProduct(ProductSO product)
         {
             _image = GetComponent<Image>();
@@ -21,11 +27,27 @@ namespace IncredibleGrocery
             _image.sprite = product.ProductImage;
         }
 
-        public void OnToggleValueChanged(Toggle toggle)
+        public void OnToggleValueChanged(bool toggleOn)
+        {
+            OnCheckProduct(toggleOn);
+        }
+
+        public void UncheckProduct()
+        {
+            if (_toggle.isOn)
+            {
+                _toggle?.onValueChanged.RemoveListener(OnToggleValueChanged);
+                _toggle.isOn = false;
+                OnCheckProduct(false, false);
+                _toggle.onValueChanged.AddListener(OnToggleValueChanged);
+            }
+        }
+
+        private void OnCheckProduct(bool toggleOn, bool playSound = true)
         {
             _image.color = new Color(_image.color.r, _image.color.g, _image.color.b,
-                                        toggle.isOn ? TRANSPARENT_LEVEL : 1);
-            if (toggle.isOn)
+                                        toggleOn ? TRANSPARENT_LEVEL : 1);
+            if (toggleOn)
             {
                 StoragePresenter.SelectedProducts.Add(_product);
             }
@@ -33,11 +55,16 @@ namespace IncredibleGrocery
             {
                 StoragePresenter.SelectedProducts.Remove(_product);
             }
+
+            if (playSound)
+            {
+                EventBus.Instance.OnProductSelected();
+            }
         }
 
-        public void UncheckProduct()
+        private void OnDisable()
         {
-            _toggle.isOn = false;
+            _toggle?.onValueChanged.RemoveListener(OnToggleValueChanged);
         }
     }
 }

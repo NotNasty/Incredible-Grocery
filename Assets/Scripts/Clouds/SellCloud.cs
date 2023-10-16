@@ -20,6 +20,7 @@ namespace IncredibleGrocery
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
+            EventBus.Instance.OnCloudAppeared();
         }
 
         public void AddSales(Dictionary<ProductSO, bool> checkedOrder)
@@ -45,6 +46,7 @@ namespace IncredibleGrocery
 
         public void RemoveCloud()
         {
+            EventBus.Instance.OnCloudDisappeared();
             _animator.Play(DISAPPEAR_ANIM);
         }
     }

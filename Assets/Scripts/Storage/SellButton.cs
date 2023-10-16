@@ -31,6 +31,7 @@ namespace IncredibleGrocery
         public void OnClick()
         {
             SellButtonClicked?.Invoke();
+            EventBus.Instance.OnButtonClicked();
         }
 
         private void OnDisable()

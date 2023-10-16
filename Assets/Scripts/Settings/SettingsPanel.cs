@@ -28,6 +28,7 @@ namespace IncredibleGrocery
         public void OnSaveClick()
         {
             SetActive(false);
+            EventBus.Instance.OnButtonClicked();
         }
     }
 
