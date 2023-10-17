@@ -30,6 +30,10 @@ namespace IncredibleGrocery
         public event Action<AudioTypeEnum> MoneyPaid;
         public event Action<AudioTypeEnum> ProductSelected;
 
+        public event Action<bool> SoundStatusChanged;
+        public event Action<bool> MusicStatusChanged;
+
+
         public void OnButtonClicked()
         {
             ButtonClicked?.Invoke(AudioTypeEnum.ButtonClicked);
@@ -53,6 +57,16 @@ namespace IncredibleGrocery
         public void OnProductSelected()
         {
             ProductSelected?.Invoke(AudioTypeEnum.ProductSelected);
+        }
+
+        public void OnSoundsStatusChanged(bool isOn)
+        {
+            SoundStatusChanged?.Invoke(isOn);
+        }
+
+        public void OnMusicStatusChanged(bool isOn)
+        {
+            MusicStatusChanged?.Invoke(isOn);
         }
     }
 }

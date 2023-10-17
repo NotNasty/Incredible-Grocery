@@ -27,14 +27,15 @@ namespace IncredibleGrocery
         private StoragePresenter _storagePresenter;
         private Client _client;
         private ShopStateEnum _shopState;
+        private SaveDataManager _saveDataManager;
 
         private void Awake()
         {
+            _saveDataManager = new SaveDataManager();
             Init();
             _storagePresenter = new StoragePresenter(storageView);
-            _moneyManager = new MoneyManager();
+            _moneyManager = new MoneyManager(_saveDataManager);
             _shopState = ShopStateEnum.NoClient;
-            audioManager.PlayMusic();
         }
 
         private void OnEnable() 
@@ -48,8 +49,8 @@ namespace IncredibleGrocery
             moneyView.Init();
             storageView.Init();
             sellButton.Init();
-            settingsPanel.Init();
             settingsButton.Init(settingsPanel);
+            settingsPanel.Init(_saveDataManager);
         }
 
         private void Update()

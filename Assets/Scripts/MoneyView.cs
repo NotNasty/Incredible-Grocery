@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using IncredibleGrocery;
@@ -8,12 +6,11 @@ using IncredibleGrocery;
 public class MoneyView : MonoBehaviour
 {
     private TMP_Text _text;
-    private const string MONEY_FORMAT = "$ {0}";
+
 
     public void Init()
     {
         _text = GetComponent<TMP_Text>();
-        _text.text = string.Format(MONEY_FORMAT, 0);
     }
 
     private void OnEnable()
@@ -23,7 +20,7 @@ public class MoneyView : MonoBehaviour
 
     private void ChangeMoneyBalance(int moneyBalance)
     {
-        _text.text = string.Format(MONEY_FORMAT, moneyBalance);
+        _text.text = string.Format(Constants.MoneyDisplayFormat, moneyBalance);
     }
 
     private void OnDisable()
