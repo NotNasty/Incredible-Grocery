@@ -18,7 +18,7 @@ namespace IncredibleGrocery
 
         [Header("UI")]
         [SerializeField] private SettingsButton settingsButton;
-        [SerializeField] private SettingsPanel settingsPanel;
+        [SerializeField] private SettingsPanel settings;
 
         [Header("Audio Manager")]
         [SerializeField] private AudioManager audioManager;
@@ -49,8 +49,8 @@ namespace IncredibleGrocery
             moneyView.Init();
             storageView.Init();
             sellButton.Init();
-            settingsButton.Init(settingsPanel);
-            settingsPanel.Init(_saveDataManager);
+            settingsButton.Init(settings);
+            settings.Init(_saveDataManager);
         }
 
         private void Update()

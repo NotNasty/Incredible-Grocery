@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,6 +58,7 @@ namespace IncredibleGrocery
         {
             _saveDataManager.SaveSettingsData(_settingsData);
             SetActive(false);
+            Time.timeScale = 1;
             EventBus.Instance.OnButtonClicked();
         }
 

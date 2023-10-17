@@ -9,12 +9,12 @@ namespace IncredibleGrocery
     public class SettingsButton : MonoBehaviour
     {
         private Button _button;
-        private SettingsPanel _settingsPanel;
+        private SettingsPanel _settings;
 
-        public void Init(SettingsPanel settingsPanel)
+        public void Init(SettingsPanel settings)
         {
             _button = GetComponent<Button>();
-            _settingsPanel = settingsPanel;
+            _settings = settings;
             _button.onClick.AddListener(OnClick);
         }
 
@@ -25,7 +25,8 @@ namespace IncredibleGrocery
 
         private void OnClick()
         {
-            _settingsPanel.SetActive(true);
+            _settings.SetActive(true);
+            Time.timeScale = 0;
             EventBus.Instance.OnButtonClicked();
         }
 

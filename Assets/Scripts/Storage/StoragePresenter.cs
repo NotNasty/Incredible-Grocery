@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace IncredibleGrocery
 {
@@ -42,19 +40,17 @@ namespace IncredibleGrocery
         private async void OnOrderEnding(OrderCloud cloudManager)
         {
             await Task.Delay(_storage.DelayOfAppearing * 1000);
-            _storage.UncheckAllProducts();
             _storage.SetActive(true);
+            _storage.UncheckAllProducts();
             cloudManager.RemoveCloud();
         }
 
         private void OnSelectProduct(object sender, ListChangedEventArgs e)
         {
-            if (_productsInOrder> 0 && 
-            e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
+            if (e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
             {
                 var selectedProducts = sender as BindingList<ProductSO>;
-                NeededCountOfProductsChecked?.Invoke(selectedProducts is not null
-                                                        && selectedProducts.Count == _productsInOrder);
+                NeededCountOfProductsChecked?.Invoke(selectedProducts?.Count == _productsInOrder);
             }
         }
 
