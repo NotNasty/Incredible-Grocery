@@ -21,6 +21,7 @@ namespace IncredibleGrocery
 
         public void Leaving()
         {
+             _animator.SetBool(Constants.IsWaitingAnimParam, false);
             _sprite.flipX = true;
         }
     }
