@@ -17,8 +17,8 @@ namespace IncredibleGrocery
         public void LoadSavedData()
         {
             _saveData.MoneyCount = PlayerPrefs.GetInt(Constants.MoneySettingName);
-            _saveData.SettingsData.MusicOn = Convert.ToBoolean(PlayerPrefs.GetInt(Constants.MusicOnSettingName));
-            _saveData.SettingsData.SoundsOn = Convert.ToBoolean(PlayerPrefs.GetInt(Constants.SoundsOnSettingName));
+            _saveData.SettingsData.MusicOn = Convert.ToBoolean(PlayerPrefs.GetInt(Constants.MusicOnSettingName, 1));
+            _saveData.SettingsData.SoundsOn = Convert.ToBoolean(PlayerPrefs.GetInt(Constants.SoundsOnSettingName, 1));
         }
 
         public SettingsData GetSettingsData()

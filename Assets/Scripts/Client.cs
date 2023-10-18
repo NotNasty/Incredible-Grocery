@@ -11,25 +11,26 @@ namespace IncredibleGrocery
 
     public class Client : MonoBehaviour
     {
-        public static event Func<OrderCloud, HashSet<ProductSO>> MakingOrder;
+        public static event Action<OrderCloud> OrderGenerated;
         public static event Action<Dictionary<ProductSO, bool>> OrderChecked;
         public static event Action LeftFromShop;
-
-        private Vector2 _targetPositionForOrdering;
-        private MoneyManager _moneyManager;
+        public static int ProductsInOrder { get; private set; }
 
         [SerializeField] private OrderCloud cloudPrefab;
         [SerializeField] private Sprite positiveReaction;
         [SerializeField] private Sprite negativeReaction;
         [SerializeField] private ClientAnimationManager animationManager;
+        [SerializeField] private int minCountOfOrders;
+        [SerializeField] private int maxCountOfOrders;
 
         private HashSet<ProductSO> _order;
-
+        private Vector2 _targetPositionForOrdering;
+        private MoneyManager _moneyManager;
         private ClientStateEnum _state;
         private bool _orderIsAllCorrect = true;
+        private StoragePresenter _storagePresenter;
         private int _paidPrice = 0;
         private const float DESTINATION_LIMIT = .2f;
-
         private Vector3 _startPosition;
 
         private void OnEnable()
@@ -38,11 +39,12 @@ namespace IncredibleGrocery
             Player.SaleResultRevealed += ReactAtSaleOffer;
         }
 
-        public void Init(Vector2 targetPositionForOrdering, MoneyManager moneyManager)
+        public void Init(Vector2 targetPositionForOrdering, MoneyManager moneyManager, StoragePresenter storagePresenter)
         {
             animationManager.Init();
             _startPosition = transform.position;
             _moneyManager = moneyManager;
+            _storagePresenter = storagePresenter;
             _targetPositionForOrdering = targetPositionForOrdering;
         }
 
@@ -57,7 +59,7 @@ namespace IncredibleGrocery
                     OrderAndWait();
                     break;
                 case ClientStateEnum.Leaving:
-                    if ( MoveClient(_startPosition))
+                    if (MoveClient(_startPosition))
                     {
                         LeftFromShop?.Invoke();
                         Destroy(gameObject);
@@ -78,8 +80,25 @@ namespace IncredibleGrocery
         {
             animationManager.StartWaiting();
             var cloud = Instantiate(cloudPrefab, transform);
-            _order = MakingOrder?.Invoke(cloud);
+            _order = OnMakingOrder(cloud);
+            OrderGenerated?.Invoke(cloud);
             _state = ClientStateEnum.WaitingForOrder;
+        }
+
+        public HashSet<ProductSO> OnMakingOrder(OrderCloud cloudManager)
+        {
+            ProductsInOrder = UnityEngine.Random.Range(minCountOfOrders, maxCountOfOrders + 1);
+            var taken = new HashSet<ProductSO>();
+            while (taken.Count < ProductsInOrder)
+            {
+                int pickedUpProduct = UnityEngine.Random.Range(0, _storagePresenter.GetCountOfProducts() - 1);
+                int previousTakenCount = taken.Count;
+                var takenProduct = _storagePresenter.GetProductByIndex(pickedUpProduct);
+                taken.Add(takenProduct);
+                if (taken.Count > previousTakenCount)
+                    cloudManager.AddOrder(takenProduct);
+            }
+            return taken;
         }
 
         private void CheckOrder()

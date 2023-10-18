@@ -7,7 +7,6 @@ namespace IncredibleGrocery
 {
     public class StoragePresenter : IDisposable
     {
-        private int _productsInOrder;
         private Storage _storage;
 
         public static event Action<bool> NeededCountOfProductsChecked;
@@ -17,25 +16,20 @@ namespace IncredibleGrocery
         {
             _storage = storage;
             SelectedProducts.ListChanged += OnSelectProduct;
-            Client.MakingOrder += OnMakingOrder;
+            Client.OrderGenerated += OnOrderEnding;
             SellButton.SellButtonClicked += HideStorage;
         }
 
-        public HashSet<ProductSO> OnMakingOrder(OrderCloud cloudManager)
+        public int GetCountOfProducts()
         {
-            _productsInOrder = UnityEngine.Random.Range(cloudManager.MinCountOfOrders, cloudManager.MaxCountOfOrders);
-            var taken = new HashSet<ProductSO>();
-            while (taken.Count < _productsInOrder)
-            {
-                int pickedUpProduct = UnityEngine.Random.Range(0, _storage.Products.Count - 1);
-                int previousTakenCount = taken.Count;
-                taken.Add(_storage.Products[pickedUpProduct]);
-                if (taken.Count > previousTakenCount)
-                    cloudManager.AddOrder(_storage.Products[pickedUpProduct]);
-            }
-            OnOrderEnding(cloudManager);
-            return taken;
+            return _storage.Products.Count;
         }
+
+        public ProductSO GetProductByIndex(int index)
+        {
+            return _storage.Products[index];
+        }
+
 
         private async void OnOrderEnding(OrderCloud cloudManager)
         {
@@ -50,7 +44,7 @@ namespace IncredibleGrocery
             if (e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
             {
                 var selectedProducts = sender as BindingList<ProductSO>;
-                NeededCountOfProductsChecked?.Invoke(selectedProducts?.Count == _productsInOrder);
+                NeededCountOfProductsChecked?.Invoke(selectedProducts?.Count == Client.ProductsInOrder);
             }
         }
 
@@ -62,7 +56,7 @@ namespace IncredibleGrocery
         public void Dispose()
         {
             SelectedProducts.ListChanged -= OnSelectProduct;
-            Client.MakingOrder -= OnMakingOrder;
+            Client.OrderGenerated -= OnOrderEnding;
             SellButton.SellButtonClicked -= HideStorage;
         }
     }

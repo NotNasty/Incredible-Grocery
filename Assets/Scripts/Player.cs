@@ -25,6 +25,7 @@ namespace IncredibleGrocery
             cloud.RevealReaction();
             await Task.Delay(DELAY_OF_REACTION);
             SaleResultRevealed?.Invoke();
+            await Task.Delay(DELAY_OF_REACTION);
             cloud.RemoveCloud();
         }
 

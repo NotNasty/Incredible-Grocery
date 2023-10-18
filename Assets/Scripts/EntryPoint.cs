@@ -58,7 +58,7 @@ namespace IncredibleGrocery
             if (_shopState == ShopStateEnum.NoClient)
             {
                 _client = Instantiate(clientPrefab).GetComponent<Client>();
-                _client.Init(targetPositionForOrdering.position, _moneyManager);
+                _client.Init(targetPositionForOrdering.position, _moneyManager, _storagePresenter);
                 _shopState = ShopStateEnum.HaveClient;
             }
             
