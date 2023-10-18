@@ -1,26 +1,28 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public class ClientAnimationManager : MonoBehaviour
+namespace IncredibleGrocery
 {
-    private Animator _animator;
-    private SpriteRenderer _sprite;
-
-    private const string IS_WAITING_PARAM = "isWaiting";
-
-    public void Init()
+    [RequireComponent(typeof(Animator))]
+    public class ClientAnimationManager : MonoBehaviour
     {
-        _animator = GetComponent<Animator>();
-        _sprite = GetComponent<SpriteRenderer>();
-    }
+        private Animator _animator;
+        private SpriteRenderer _sprite;
 
-    public void StartWaiting()
-    {
-        _animator.SetBool(IS_WAITING_PARAM, true);
-    }
+        public void Init()
+        {
+            _animator = GetComponent<Animator>();
+            _sprite = GetComponent<SpriteRenderer>();
+        }
 
-    public void Leaving()
-    {
-       _sprite.flipX = true;
+        public void StartWaiting()
+        {
+            _animator.SetBool(Constants.IsWaitingAnimParam, true);
+        }
+
+        public void Leaving()
+        {
+            _sprite.flipX = true;
+        }
     }
 }
+

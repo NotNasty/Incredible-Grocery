@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 namespace IncredibleGrocery
@@ -8,7 +9,6 @@ namespace IncredibleGrocery
     public class Player : MonoBehaviour
     {
         [SerializeField] private SellCloud cloudPrefab;
-        private const int DELAY_OF_REACTION = 1000;
 
         public static event Action SaleResultRevealed;
 
@@ -21,11 +21,11 @@ namespace IncredibleGrocery
         {
             var cloud = Instantiate(cloudPrefab, transform);
             cloud.AddSales(checkedOrder);
-            await Task.Delay(DELAY_OF_REACTION);
+            await Task.Delay(Constants.OneSecInMilliseconds);
             cloud.RevealReaction();
-            await Task.Delay(DELAY_OF_REACTION);
+            await Task.Delay(Constants.OneSecInMilliseconds);
             SaleResultRevealed?.Invoke();
-            await Task.Delay(DELAY_OF_REACTION);
+            await Task.Delay(Constants.OneSecInMilliseconds);
             cloud.RemoveCloud();
         }
 

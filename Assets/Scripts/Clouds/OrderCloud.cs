@@ -9,7 +9,6 @@ namespace IncredibleGrocery
         [SerializeField] private Transform orderGridContent;
 
         private Animator _animator;
-        private const string DISAPPEAR_ANIM = "Disappearing";
 
         private void Awake()
         {
@@ -32,7 +31,7 @@ namespace IncredibleGrocery
         public void RemoveCloud()
         {
             EventBus.Instance.OnCloudDisappeared();
-            _animator.Play(DISAPPEAR_ANIM);
+            _animator.Play(Constants.DisappearAnimation);
         }
     }
 }

@@ -9,9 +9,7 @@ namespace IncredibleGrocery
     {
         [SerializeField] private GameObject orderPrefab;
         [SerializeField] private Transform orderGridContent;
-
-        private const string DISAPPEAR_ANIM = "Disappearing";
-        private const int HALF_OF_SECOND = 500;
+        
 
         private Animator _animator;
         private List<SellToggleButton> _saleButtons = new List<SellToggleButton>();
@@ -39,7 +37,7 @@ namespace IncredibleGrocery
         {
             foreach(var saleButton in _saleButtons)
             {
-                await Task.Delay(HALF_OF_SECOND);
+                await Task.Delay(Constants.OneSecInMilliseconds / 2);
                 saleButton.ReactionReveal();
             }
         }
@@ -47,7 +45,7 @@ namespace IncredibleGrocery
         public void RemoveCloud()
         {
             EventBus.Instance.OnCloudDisappeared();
-            _animator.Play(DISAPPEAR_ANIM);
+            _animator.Play(Constants.DisappearAnimation);
         }
     }
 }

@@ -30,7 +30,6 @@ namespace IncredibleGrocery
         private bool _orderIsAllCorrect = true;
         private StoragePresenter _storagePresenter;
         private int _paidPrice = 0;
-        private const float DESTINATION_LIMIT = .2f;
         private Vector3 _startPosition;
 
         private void OnEnable()
@@ -73,7 +72,7 @@ namespace IncredibleGrocery
         private bool MoveClient(Vector2 targetPosition)
         {
             transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime);
-            return Vector2.Distance(transform.position, targetPosition) < DESTINATION_LIMIT;
+            return Vector2.Distance(transform.position, targetPosition) < Constants.DestinationToPlayerLimit;
         }
 
         private void OrderAndWait()

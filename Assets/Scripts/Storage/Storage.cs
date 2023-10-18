@@ -16,7 +16,6 @@ namespace IncredibleGrocery
         [SerializeField] private ProductButton ProductItemPrefab;
         private Animator _animator;
         private List<ProductButton> _productsButtons = new List<ProductButton>();
-        private const string IS_ACTIVE_PARAM = "isActive";
 
         public int DelayOfAppearing;
 
@@ -28,7 +27,7 @@ namespace IncredibleGrocery
 
         private void OnEnable() 
         {
-            _animator.SetBool(IS_ACTIVE_PARAM, true);
+            _animator.SetBool(Constants.IsActiveAnimParam, true);
         }
 
         public List<ProductSO> Products
@@ -62,7 +61,7 @@ namespace IncredibleGrocery
 
         private void OnDisable() 
         {
-            _animator.SetBool(IS_ACTIVE_PARAM, false);
+            _animator.SetBool(Constants.IsActiveAnimParam, false);
         }
     }
 }

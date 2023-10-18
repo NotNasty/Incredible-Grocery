@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace IncredibleGrocery
 {
     public static class Constants
@@ -14,8 +10,20 @@ namespace IncredibleGrocery
 
         #endregion
 
+        #region Animation
 
+        public const string IsWaitingAnimParam = "isWaiting";
+        
+        public const string DisappearAnimation = "Disappearing";
+
+        public const string IsActiveAnimParam = "isActive";
+
+        #endregion
+
+
+        public const int OneSecInMilliseconds = 1000;
         public const string MoneyDisplayFormat = "$ {0}";
+        public const float DestinationToPlayerLimit = .2f;
     }
 }
 
