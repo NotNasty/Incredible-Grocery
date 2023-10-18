@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +7,10 @@ namespace IncredibleGrocery
     public class SellButton : MonoBehaviour
     {
         private Button _button;
-        public static event Action SellButtonClicked;
 
         private void OnEnable() 
         {
-            StoragePresenter.NeededCountOfProductsChecked += SetEnableStatus;
+            EventBus.Instance.NeededCountOfProducts += SetEnableStatus;
             _button.onClick.AddListener(OnClick);
         }
 
@@ -30,13 +26,12 @@ namespace IncredibleGrocery
 
         public void OnClick()
         {
-            SellButtonClicked?.Invoke();
-            EventBus.Instance.OnButtonClicked();
+            EventBus.Instance.OnSellButtonClicked();
         }
 
         private void OnDisable()
         {
-            StoragePresenter.NeededCountOfProductsChecked -= SetEnableStatus;
+            EventBus.Instance.NeededCountOfProducts -= SetEnableStatus;
             _button.onClick.RemoveListener(OnClick);
         }
     }

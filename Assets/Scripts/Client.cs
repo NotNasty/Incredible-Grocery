@@ -1,19 +1,12 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace IncredibleGrocery
 {
 
     public class Client : MonoBehaviour
     {
-        public static event Action<OrderCloud> OrderGenerated;
-        public static event Action<Dictionary<ProductSO, bool>> OrderChecked;
-        public static event Action LeftFromShop;
         public static int ProductsInOrder { get; private set; }
 
         [SerializeField] private OrderCloud cloudPrefab;
@@ -34,8 +27,8 @@ namespace IncredibleGrocery
 
         private void OnEnable()
         {
-            SellButton.SellButtonClicked += CheckOrder;
-            Player.SaleResultRevealed += ReactAtSaleOffer;
+            EventBus.Instance.SellButtonClicked += CheckOrder;
+            EventBus.Instance.SaleResultRevealed += ReactAtSaleOffer;
         }
 
         public void Init(Vector2 targetPositionForOrdering, MoneyManager moneyManager, StoragePresenter storagePresenter)
@@ -60,7 +53,7 @@ namespace IncredibleGrocery
                 case ClientStateEnum.Leaving:
                     if (MoveClient(_startPosition))
                     {
-                        LeftFromShop?.Invoke();
+                        EventBus.Instance.OnLeftFromShop();
                         Destroy(gameObject);
                     }
                     break;
@@ -80,7 +73,7 @@ namespace IncredibleGrocery
             animationManager.StartWaiting();
             var cloud = Instantiate(cloudPrefab, transform);
             _order = OnMakingOrder(cloud);
-            OrderGenerated?.Invoke(cloud);
+            EventBus.Instance.OnOrderGenerated(cloud);
             _state = ClientStateEnum.WaitingForOrder;
         }
 
@@ -102,27 +95,7 @@ namespace IncredibleGrocery
 
         private void CheckOrder()
         {
-            _orderIsAllCorrect = true;
-            Dictionary<ProductSO, bool> checkedOrder = new Dictionary<ProductSO, bool>();
-            foreach (var selectedProduct in StoragePresenter.SelectedProducts)
-            {
-                foreach (var orderedProduct in _order)
-                {
-                    if (orderedProduct.Equals(selectedProduct))
-                    {
-                        checkedOrder.Add(selectedProduct, true);
-                        _paidPrice += orderedProduct.Price;
-                        break;
-                    }
-                }
-
-                if (!checkedOrder.ContainsKey(selectedProduct))
-                {
-                    _orderIsAllCorrect = false;
-                    checkedOrder.Add(selectedProduct, false);
-                }
-            }
-            OrderChecked?.Invoke(checkedOrder);
+            _orderIsAllCorrect = _storagePresenter.CheckOrder(_order, ref _paidPrice);
         }
 
         private async void ReactAtSaleOffer()
@@ -138,7 +111,7 @@ namespace IncredibleGrocery
                 cloudManager.AddReaction(negativeReaction);
             }
             _moneyManager.AddToBalance(_paidPrice);
-            await Task.Delay(1000);
+            await Task.Delay(Constants.OneSecInMilliseconds);
             LeaveShop();
         }
 
@@ -150,8 +123,8 @@ namespace IncredibleGrocery
 
         private void OnDisable()
         {
-            SellButton.SellButtonClicked -= CheckOrder;
-            Player.SaleResultRevealed -= ReactAtSaleOffer;
+            EventBus.Instance.SellButtonClicked -= CheckOrder;
+            EventBus.Instance.SaleResultRevealed -= ReactAtSaleOffer;
         }
     }
 

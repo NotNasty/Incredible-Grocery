@@ -11,7 +11,7 @@ namespace IncredibleGrocery
 
         [Header("Storage")]
         [SerializeField] private SellButton sellButton;
-        [SerializeField] private Storage storageView;
+        [SerializeField] private StorageView storageView;
 
         [Header("Money")]
         [SerializeField] private MoneyView moneyView;
@@ -32,15 +32,18 @@ namespace IncredibleGrocery
         private void Awake()
         {
             _saveDataManager = new SaveDataManager();
+
             Init();
-            _storagePresenter = new StoragePresenter(storageView);
+
+            StorageModelParent storageModel = new StorageModel();
+            _storagePresenter = new StoragePresenter(storageView, storageModel);
             _moneyManager = new MoneyManager(_saveDataManager);
             _shopState = ShopStateEnum.NoClient;
         }
 
         private void OnEnable() 
         {
-            Client.LeftFromShop += OnClientLeft;
+            EventBus.Instance.LeftFromShop += OnClientLeft;
         }
 
         private void Init()
@@ -61,18 +64,17 @@ namespace IncredibleGrocery
                 _client.Init(targetPositionForOrdering.position, _moneyManager, _storagePresenter);
                 _shopState = ShopStateEnum.HaveClient;
             }
-            
         }
 
         public async void OnClientLeft()
         {
-            await Task.Delay(1000);
+            await Task.Delay(Constants.OneSecInMilliseconds);
             _shopState = ShopStateEnum.NoClient;
         }
 
         private void  OnDisable()
         {
-            Client.LeftFromShop -= OnClientLeft;
+            EventBus.Instance.LeftFromShop -= OnClientLeft;
         }
     }
 

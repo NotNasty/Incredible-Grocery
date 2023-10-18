@@ -3065,8 +3065,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6704d2dba5e4cc84ca1440d7c1a18b60, type: 2}
   - {fileID: 11400000, guid: 2704d2b24df38714f85a61ba3e5dfe75, type: 2}
   - {fileID: 11400000, guid: 3a6b524d9da894f4d802932a075d87b6, type: 2}
-  StorageGridContent: {fileID: 1989244042757585309}
-  ProductItemPrefab: {fileID: 6871848770677485745, guid: 858968b0b904b7c4d8b4732e3811430b, type: 3}
+  storageGridContent: {fileID: 1989244042757585309}
+  productItemPrefab: {fileID: 6871848770677485745, guid: 858968b0b904b7c4d8b4732e3811430b, type: 3}
   DelayOfAppearing: 5
 --- !u!114 &4096960835145727484
 MonoBehaviour:

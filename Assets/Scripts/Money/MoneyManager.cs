@@ -4,8 +4,6 @@ namespace IncredibleGrocery
 {
     public class MoneyManager
     {
-        public static event Action<int> BalanceChanged;
-
         private SaveDataManager _saveDataManager;
         private int _money;
 
@@ -16,7 +14,7 @@ namespace IncredibleGrocery
             {
                 _money = value;
                 _saveDataManager.SaveMoneyData(_money);
-                BalanceChanged?.Invoke(_money);
+                EventBus.Instance.OnBalanceChanged(_money);
             }
         }
 

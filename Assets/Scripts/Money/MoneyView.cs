@@ -15,7 +15,7 @@ public class MoneyView : MonoBehaviour
 
     private void OnEnable()
     {
-        MoneyManager.BalanceChanged += ChangeMoneyBalance;
+        EventBus.Instance.BalanceChanged += ChangeMoneyBalance;
     }
 
     private void ChangeMoneyBalance(int moneyBalance)
@@ -25,6 +25,6 @@ public class MoneyView : MonoBehaviour
 
     private void OnDisable()
     {
-        MoneyManager.BalanceChanged += ChangeMoneyBalance;
+        EventBus.Instance.BalanceChanged += ChangeMoneyBalance;
     }
 }

@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace IncredibleGrocery
 {
@@ -21,9 +19,6 @@ namespace IncredibleGrocery
             }
         }
 
-
-        private EventBus() { }
-
         public event Action<AudioTypeEnum> ButtonClicked;
         public event Action<AudioTypeEnum> CloudAppeared;
         public event Action<AudioTypeEnum> CloudDisappeared;
@@ -33,6 +28,16 @@ namespace IncredibleGrocery
         public event Action<bool> SoundStatusChanged;
         public event Action<bool> MusicStatusChanged;
 
+        public event Action<int> SelectedProductsChanged;
+        public event Action<Dictionary<ProductSO, bool>> OrderChecked;
+        public event Action<OrderCloud> OrderGenerated;
+        public event Action LeftFromShop;
+        public event Action<int> BalanceChanged;
+        public event Action SaleResultRevealed;
+        public event Action SellButtonClicked;
+        public event Action<bool> NeededCountOfProducts;
+
+        private EventBus() { }
 
         public void OnButtonClicked()
         {
@@ -67,6 +72,47 @@ namespace IncredibleGrocery
         public void OnMusicStatusChanged(bool isOn)
         {
             MusicStatusChanged?.Invoke(isOn);
+        }
+
+        public void OnSelectedProductsChanged(int countOfSelectedProducts)
+        {
+            SelectedProductsChanged?.Invoke(countOfSelectedProducts);
+        }
+
+        public void OnOrderChecked(Dictionary<ProductSO, bool> checkedProducts)
+        {
+            OrderChecked?.Invoke(checkedProducts);
+        }
+
+        public void OnOrderGenerated(OrderCloud cloud)
+        {
+            OrderGenerated?.Invoke(cloud);
+        }
+
+        public void OnLeftFromShop()
+        {
+            LeftFromShop?.Invoke();
+        }
+
+        public void OnBalanceChanged(int balanceChange)
+        {
+            BalanceChanged?.Invoke(balanceChange);
+        }
+
+        public void OnSaleResultRevealed()
+        {
+            SaleResultRevealed?.Invoke();
+        }
+
+        public void OnSellButtonClicked()
+        {
+            SellButtonClicked?.Invoke();
+            OnButtonClicked();
+        }
+
+        public void OnNeededCountOfProducts(bool neededCount)
+        {
+            NeededCountOfProducts?.Invoke(neededCount);
         }
     }
 }

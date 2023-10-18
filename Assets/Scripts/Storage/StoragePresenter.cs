@@ -1,23 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace IncredibleGrocery
 {
     public class StoragePresenter : IDisposable
     {
-        private Storage _storage;
+        private StorageView _storage;
+        private StorageModelParent _storageModel;
 
-        public static event Action<bool> NeededCountOfProductsChecked;
-        public static BindingList<ProductSO> SelectedProducts = new BindingList<ProductSO>();
-
-        public StoragePresenter(Storage storage)
+        public StoragePresenter(StorageView storage, StorageModelParent storageModel)
         {
             _storage = storage;
-            SelectedProducts.ListChanged += OnSelectProduct;
-            Client.OrderGenerated += OnOrderEnding;
-            SellButton.SellButtonClicked += HideStorage;
+            _storageModel = storageModel;
+            EventBus.Instance.SelectedProductsChanged += OnSelectProduct;
+            EventBus.Instance.OrderGenerated += OnOrderEnding;
+            EventBus.Instance.SellButtonClicked += HideStorage;
         }
 
         public int GetCountOfProducts()
@@ -30,22 +28,22 @@ namespace IncredibleGrocery
             return _storage.Products[index];
         }
 
+        public bool CheckOrder(HashSet<ProductSO> order, ref int price)
+        {
+            return _storageModel.CheckOrder(order, ref price);
+        }
 
         private async void OnOrderEnding(OrderCloud cloudManager)
         {
-            await Task.Delay(_storage.DelayOfAppearing * 1000);
+            await Task.Delay(_storage.DelayOfAppearing * Constants.OneSecInMilliseconds);
             _storage.SetActive(true);
             _storage.UncheckAllProducts();
             cloudManager.RemoveCloud();
         }
 
-        private void OnSelectProduct(object sender, ListChangedEventArgs e)
+        private void OnSelectProduct(int countOfProducts)
         {
-            if (e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
-            {
-                var selectedProducts = sender as BindingList<ProductSO>;
-                NeededCountOfProductsChecked?.Invoke(selectedProducts?.Count == Client.ProductsInOrder);
-            }
+            EventBus.Instance.OnNeededCountOfProducts(countOfProducts == Client.ProductsInOrder);
         }
 
         public void HideStorage()
@@ -55,9 +53,9 @@ namespace IncredibleGrocery
 
         public void Dispose()
         {
-            SelectedProducts.ListChanged -= OnSelectProduct;
-            Client.OrderGenerated -= OnOrderEnding;
-            SellButton.SellButtonClicked -= HideStorage;
+            EventBus.Instance.SelectedProductsChanged -= OnSelectProduct;
+            EventBus.Instance.OrderGenerated -= OnOrderEnding;
+            EventBus.Instance.SellButtonClicked -= HideStorage;
         }
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,11 +47,11 @@ namespace IncredibleGrocery
                                         toggleOn ? TRANSPARENT_LEVEL : 1);
             if (toggleOn)
             {
-                StoragePresenter.SelectedProducts.Add(_product);
+                StorageModel.SelectNewProduct(_product);
             }
             else
             {
-                StoragePresenter.SelectedProducts.Remove(_product);
+                StorageModel.UnselectNewProduct(_product);
             }
 
             if (playSound)

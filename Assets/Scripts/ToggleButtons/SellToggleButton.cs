@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +30,6 @@ namespace IncredibleGrocery
             {
                 negativeReaction.gameObject.SetActive(true);
             }
-            
         }
     }
 }

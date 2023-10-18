@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 namespace IncredibleGrocery
@@ -10,11 +8,9 @@ namespace IncredibleGrocery
     {
         [SerializeField] private SellCloud cloudPrefab;
 
-        public static event Action SaleResultRevealed;
-
         private void OnEnable()
         {
-            Client.OrderChecked += SellAsync;
+            EventBus.Instance.OrderChecked += SellAsync;
         }
 
         private async void SellAsync(Dictionary<ProductSO, bool> checkedOrder)
@@ -24,14 +20,14 @@ namespace IncredibleGrocery
             await Task.Delay(Constants.OneSecInMilliseconds);
             cloud.RevealReaction();
             await Task.Delay(Constants.OneSecInMilliseconds);
-            SaleResultRevealed?.Invoke();
+            EventBus.Instance.OnSaleResultRevealed();
             await Task.Delay(Constants.OneSecInMilliseconds);
             cloud.RemoveCloud();
         }
 
         private void OnDisable()
         {
-            Client.OrderChecked -= SellAsync;
+            EventBus.Instance.OrderChecked -= SellAsync;
         }
     }
 }
