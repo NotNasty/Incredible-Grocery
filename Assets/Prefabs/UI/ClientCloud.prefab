@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -0.1583004, y: 0.13164}
-  m_SizeDelta: {x: -0.3165, y: 1.1548}
+  m_AnchoredPosition: {x: -0.0035498142, y: 0.24416578}
+  m_SizeDelta: {x: -0.0071000457, y: 2.3053}
   m_Pivot: {x: 0.5, y: 0.60591495}
 --- !u!222 &6346469769227375573
 CanvasRenderer:
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 2517296636589126454}
   - component: {fileID: 629338784312427520}
   m_Layer: 5
-  m_Name: SellGrid
+  m_Name: OrderGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,8 +133,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.2401, y: -0.143}
-  m_SizeDelta: {x: -0.4802, y: 0.6432}
+  m_AnchoredPosition: {x: 0.24644995, y: -0.3526497}
+  m_SizeDelta: {x: -0.49290037, y: 1}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &629338784312427520
 MonoBehaviour:
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 0.7, y: 0.7}
-  m_Spacing: {x: -0.3, y: 0}
+  m_Spacing: {x: 0.2, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 1
 --- !u!1 &3614337847234064727
@@ -172,9 +172,9 @@ GameObject:
   - component: {fileID: 1473875420166832249}
   - component: {fileID: 2547397434342634540}
   - component: {fileID: 5255982195094666194}
-  - component: {fileID: 2334161765880326004}
+  - component: {fileID: 432658405935377418}
   m_Layer: 5
-  m_Name: SellingCloud
+  m_Name: ClientCloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,8 +198,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.0999756, y: 1.0999756}
-  m_SizeDelta: {x: 1.8, y: 1.5}
+  m_AnchoredPosition: {x: 2.1600342, y: 3}
+  m_SizeDelta: {x: 3.5, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1473875420166832249
 Canvas:
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2334161765880326004
+--- !u!114 &432658405935377418
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,8 +273,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 3614337847234064727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 092fd15537e24e84c966c0238f1de51c, type: 3}
+  m_Script: {fileID: 11500000, guid: de37c03685c6c834f8149247eb3ee25a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orderPrefab: {fileID: 8617611717582350738, guid: 3ad9648022299484bbad5d11c1c3bbf9, type: 3}
-  orderGridContent: {fileID: 2517296636589126454}
+  cloudGridContent: {fileID: 2517296636589126454}
+  orderPrefab: {fileID: 303305844259613621, guid: 2d065d7b4534b2242bb09a201fdae1c0, type: 3}

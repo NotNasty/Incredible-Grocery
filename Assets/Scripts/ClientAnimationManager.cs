@@ -16,12 +16,12 @@ namespace IncredibleGrocery
 
         public void StartWaiting()
         {
-            _animator.SetBool(Constants.IsWaitingAnimParam, true);
+            _animator.SetBool(Constants.IsWaiting, true);
         }
 
         public void Leaving()
         {
-             _animator.SetBool(Constants.IsWaitingAnimParam, false);
+             _animator.SetBool(Constants.IsWaiting, false);
             _sprite.flipX = true;
         }
     }

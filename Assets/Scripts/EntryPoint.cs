@@ -1,4 +1,8 @@
 using System.Threading.Tasks;
+using IncredibleGrocery.Audio;
+using IncredibleGrocery.Money;
+using IncredibleGrocery.Settings;
+using IncredibleGrocery.Storage;
 using UnityEngine;
 
 namespace IncredibleGrocery
@@ -6,19 +10,15 @@ namespace IncredibleGrocery
     public class EntryPoint : MonoBehaviour
     {
         [Header("Client")]
-        [SerializeField] private GameObject clientPrefab;
+        [SerializeField] private Client clientPrefab;
         [SerializeField] private Transform targetPositionForOrdering;
 
         [Header("Storage")]
         [SerializeField] private SellButton sellButton;
         [SerializeField] private StorageView storageView;
 
-        [Header("Money")]
-        [SerializeField] private MoneyView moneyView;
-
         [Header("UI")]
-        [SerializeField] private SettingsButton settingsButton;
-        [SerializeField] private SettingsPanel settings;
+        [SerializeField] private MainScreen mainScreen;
 
         [Header("Audio Manager")]
         [SerializeField] private AudioManager audioManager;
@@ -49,24 +49,22 @@ namespace IncredibleGrocery
         private void Init()
         {
             audioManager.Init();
-            moneyView.Init();
             storageView.Init();
             sellButton.Init();
-            settingsButton.Init(settings);
-            settings.Init(_saveDataManager);
+            mainScreen.Init(_saveDataManager);
         }
 
         private void Update()
         {
             if (_shopState == ShopStateEnum.NoClient)
             {
-                _client = Instantiate(clientPrefab).GetComponent<Client>();
+                _client = Instantiate(clientPrefab);
                 _client.Init(targetPositionForOrdering.position, _moneyManager, _storagePresenter);
                 _shopState = ShopStateEnum.HaveClient;
             }
         }
 
-        public async void OnClientLeft()
+        private async void OnClientLeft()
         {
             await Task.Delay(Constants.OneSecInMilliseconds);
             _shopState = ShopStateEnum.NoClient;

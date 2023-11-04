@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.ToggleButtons
 {
     [RequireComponent(typeof(Toggle), typeof(Image))]
     public class OffOnButton : MonoBehaviour
@@ -14,37 +14,29 @@ namespace IncredibleGrocery
         private Sprite _onImage;
         private Sprite _offImage;
 
-
-        private void OnEnable()
-        {
-            _toggle?.onValueChanged.AddListener(OnToggleChecked);
-        }
-
         public void Init(Sprite onImage, Sprite offImage, bool isOn)
         {
             _image = GetComponent<Image>();
             _toggle = GetComponent<Toggle>();
+            
             _onImage = onImage;
             _offImage = offImage;
+            
             _toggle.isOn = isOn;
-            _image.sprite = isOn ? _onImage : _offImage;
+            SetOnOffImage(isOn);
+            _toggle.onValueChanged.AddListener(OnToggleChecked);
         }
 
-        public void OnToggleChecked(bool isOn)
+        private void OnToggleChecked(bool isOn)
         {
-            _image.sprite = isOn ? _onImage : _offImage;
+            SetOnOffImage(isOn);
             SettingChanged?.Invoke(isOn);
             EventBus.Instance.OnButtonClicked();
         }
 
-        public bool IsOn()
+        private void SetOnOffImage(bool isOn)
         {
-            return _toggle.isOn;
-        }
-
-        private void OnDisable()
-        {
-            _toggle.onValueChanged.RemoveListener(OnToggleChecked);
+            _image.sprite = isOn ? _onImage : _offImage;
         }
     }
 }

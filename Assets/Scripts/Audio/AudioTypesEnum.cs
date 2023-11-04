@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Audio
 {
     public enum AudioTypeEnum
     {
@@ -10,7 +6,6 @@ namespace IncredibleGrocery
         CloudDisappeared,
         ButtonClicked,
         MoneyPaid,
-        ProductSelected,
-        LoopMusic
+        ProductSelected
     }
 }

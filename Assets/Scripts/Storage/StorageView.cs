@@ -1,7 +1,9 @@
-using UnityEngine;
 using System.Collections.Generic;
+using IncredibleGrocery.Products;
+using IncredibleGrocery.ToggleButtons;
+using UnityEngine;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Storage
 {
     [RequireComponent(typeof(Animator))]
     public class StorageView : MonoBehaviour
@@ -9,18 +11,16 @@ namespace IncredibleGrocery
         [SerializeField] private List<ProductSO> products;
         [SerializeField] private Transform storageGridContent;
         [SerializeField] private ProductButton productItemPrefab;
+        
         private Animator _animator;
-        private List<ProductButton> _productsButtons = new List<ProductButton>();
-
-        public int DelayOfAppearing;
-        public List<ProductSO> Products
-        {
-            get => products;
-        }
+        private readonly List<ProductButton> _productsButtons = new();
+        
+        public int delayOfAppearing;
+        public List<ProductSO> Products => products;
 
         private void OnEnable()
         {
-            _animator.SetBool(Constants.IsActiveAnimParam, true);
+            _animator.SetBool(Constants.IsActive, true);
         }
 
         public void Init()
@@ -29,24 +29,24 @@ namespace IncredibleGrocery
             AddProductsButtons();
         }
 
-        public void AddProductsButtons()
+        private void AddProductsButtons()
         {
-            foreach (ProductSO product in Products)
+            foreach (var product in Products)
             {
-                ProductButton productButton = Instantiate(productItemPrefab, storageGridContent);
+                var productButton = Instantiate(productItemPrefab, storageGridContent);
                 productButton.SetProduct(product);
                 _productsButtons.Add(productButton);
             }
         }
 
-        public void SetActive(bool enabled)
+        public void SetActive(bool active)
         {
-            gameObject?.SetActive(enabled);
+            gameObject.SetActive(active);
         }
 
         public void UncheckAllProducts()
         {
-            foreach (ProductButton button in _productsButtons)
+            foreach (var button in _productsButtons)
             {
                 button.UncheckProduct();
             }
@@ -54,7 +54,7 @@ namespace IncredibleGrocery
 
         private void OnDisable()
         {
-            _animator.SetBool(Constants.IsActiveAnimParam, false);
+            _animator.SetBool(Constants.IsActive, false);
         }
     }
 }

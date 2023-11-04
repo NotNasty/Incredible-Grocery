@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using IncredibleGrocery.Products;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Storage
 {
     public abstract class StorageModelParent
     {

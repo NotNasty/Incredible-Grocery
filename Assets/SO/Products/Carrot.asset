@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e85a7adf22c0cf41bbc1e792cad1b5a, type: 3}
-  m_Name: Beer
+  m_Name: Carrot
   m_EditorClassIdentifier: 
-  ProductImage: {fileID: 21300000, guid: 3052034ef7eadb14c971a0a4ab962fea, type: 3}
+  productImage: {fileID: 21300000, guid: 9465db55ee7f51a44bbb0001a580b1ab, type: 3}
+  price: 10

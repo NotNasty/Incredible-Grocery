@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Products
 {
     [CreateAssetMenu(fileName = "New Product", menuName = "Product")]
     public class ProductSO : ScriptableObject
     {
-        public Sprite ProductImage;
-        public int Price = 10;
+        public Sprite productImage;
+        public int price = 10;
     }
 }

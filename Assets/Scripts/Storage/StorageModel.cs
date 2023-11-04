@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
+using IncredibleGrocery.Products;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Storage
 {
     public class StorageModel : StorageModelParent
     {
@@ -24,17 +26,14 @@ namespace IncredibleGrocery
         public override bool CheckOrder(HashSet<ProductSO> order, ref int price)
         {
             bool orderIsAllCorrect = true;
-            Dictionary<ProductSO, bool> checkedOrder = new Dictionary<ProductSO, bool>();
-            foreach (var selectedProduct in StorageModel.SelectedProducts)
+            var checkedOrder = new Dictionary<ProductSO, bool>();
+            foreach (var selectedProduct in SelectedProducts)
             {
-                foreach (var orderedProduct in order)
+                foreach (var orderedProduct in order.Where(product => product.Equals(selectedProduct)))
                 {
-                    if (orderedProduct.Equals(selectedProduct))
-                    {
-                        checkedOrder.Add(selectedProduct, true);
-                        price += orderedProduct.Price;
-                        break;
-                    }
+                    checkedOrder.Add(selectedProduct, true);
+                    price += orderedProduct.price;
+                    break;
                 }
 
                 if (!checkedOrder.ContainsKey(selectedProduct))

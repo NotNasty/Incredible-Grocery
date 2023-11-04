@@ -1,13 +1,13 @@
-using System;
+using IncredibleGrocery.Settings;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Money
 {
     public class MoneyManager
     {
-        private SaveDataManager _saveDataManager;
+        private readonly SaveDataManager _saveDataManager;
         private int _money;
 
-        public int Money
+        private int Money
         {
             get => _money;
             set

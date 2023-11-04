@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using IncredibleGrocery.Clouds;
+using IncredibleGrocery.Products;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Storage
 {
     public class StoragePresenter : IDisposable
     {
-        private StorageView _storage;
-        private StorageModelParent _storageModel;
+        private readonly StorageView _storage;
+        private readonly StorageModelParent _storageModel;
 
         public StoragePresenter(StorageView storage, StorageModelParent storageModel)
         {
@@ -33,9 +35,9 @@ namespace IncredibleGrocery
             return _storageModel.CheckOrder(order, ref price);
         }
 
-        private async void OnOrderEnding(OrderCloud cloudManager)
+        private async void OnOrderEnding(ClientCloud cloudManager)
         {
-            await Task.Delay(_storage.DelayOfAppearing * Constants.OneSecInMilliseconds);
+            await Task.Delay(_storage.delayOfAppearing * Constants.OneSecInMilliseconds);
             _storage.SetActive(true);
             _storage.UncheckAllProducts();
             cloudManager.RemoveCloud();
@@ -46,7 +48,7 @@ namespace IncredibleGrocery
             EventBus.Instance.OnNeededCountOfProducts(countOfProducts == Client.ProductsInOrder);
         }
 
-        public void HideStorage()
+        private void HideStorage()
         {
             _storage.SetActive(false);
         }

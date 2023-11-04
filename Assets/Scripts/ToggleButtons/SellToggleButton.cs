@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.ToggleButtons
 {
     [RequireComponent(typeof(Image))]
     public class SellToggleButton : MonoBehaviour
@@ -10,26 +10,24 @@ namespace IncredibleGrocery
         [SerializeField] private Image positiveReaction;
 
         private Image _image;
-        private float TRANSPARENT_LEVEL = .3f;
-
-        public bool IsRightSale = false;
+        private bool _isRightSale;
 
         private void Awake()
         {
             _image = GetComponent<Image>();
         }
 
+        public void SetSaleImages(Sprite productImage, bool isRightSale)
+        {
+            _image.sprite = productImage;
+            _isRightSale = isRightSale;
+        }
+
         public void ReactionReveal()
         {
-            _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, TRANSPARENT_LEVEL);
-            if (IsRightSale)
-            {
-                positiveReaction.gameObject.SetActive(true);
-            }
-            else
-            {
-                negativeReaction.gameObject.SetActive(true);
-            }
+            _image.color = _image.color.ChangeAlphaChanel(Constants.InactiveImageTransparency);
+            positiveReaction.gameObject.SetActive(_isRightSale);
+            negativeReaction.gameObject.SetActive(!_isRightSale);
         }
     }
 }

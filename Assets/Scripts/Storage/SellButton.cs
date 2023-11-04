@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Storage
 {
     [RequireComponent(typeof(Button))]
     public class SellButton : MonoBehaviour
@@ -24,7 +24,7 @@ namespace IncredibleGrocery
             _button.interactable = isNeededCountReached;
         }
 
-        public void OnClick()
+        private void OnClick()
         {
             EventBus.Instance.OnSellButtonClicked();
         }

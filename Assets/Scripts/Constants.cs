@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace IncredibleGrocery
 {
     public static class Constants
@@ -12,18 +14,22 @@ namespace IncredibleGrocery
 
         #region Animation
 
-        public const string IsWaitingAnimParam = "isWaiting";
+        private const string IsWaitingAnimParam = "isWaiting";
+        public static readonly int IsWaiting = Animator.StringToHash(IsWaitingAnimParam);
         
-        public const string DisappearAnimation = "Disappearing";
-
-        public const string IsActiveAnimParam = "isActive";
+        private const string DisappearAnimation = "Disappearing";
+        public static readonly int Disappear = Animator.StringToHash(DisappearAnimation);
+        
+        private const string IsActiveAnimParam = "isActive";
+        public static readonly int IsActive = Animator.StringToHash(IsActiveAnimParam);
 
         #endregion
 
 
         public const int OneSecInMilliseconds = 1000;
         public const string MoneyDisplayFormat = "$ {0}";
-        public const float DestinationToPlayerLimit = .2f;
+        public const float DestinationToPlayerLimit = 0.2f;
+        public const float InactiveImageTransparency = 0.3f;
     }
 }
 

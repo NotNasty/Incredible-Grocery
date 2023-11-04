@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e85a7adf22c0cf41bbc1e792cad1b5a, type: 3}
-  m_Name: Banana
+  m_Name: Chicken
   m_EditorClassIdentifier: 
-  ProductImage: {fileID: 21300000, guid: baf24c03b9dc6be4c9f60876b4b1ae5c, type: 3}
+  productImage: {fileID: 21300000, guid: 0371c49d4e009744cb867e4ae3b3fa31, type: 3}
+  price: 10

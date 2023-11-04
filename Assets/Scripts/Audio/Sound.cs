@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Audio
 {
     [Serializable]
     public class Sound
@@ -11,5 +9,4 @@ namespace IncredibleGrocery
         public AudioClip audioClip;
         public AudioTypeEnum audioType;
     }
-
 }

@@ -1,7 +1,8 @@
+using IncredibleGrocery.ToggleButtons;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IncredibleGrocery
+namespace IncredibleGrocery.Settings
 {
     public class SettingsPanel : MonoBehaviour
     {
@@ -19,6 +20,7 @@ namespace IncredibleGrocery
 
         private void OnEnable()
         {
+            Time.timeScale = 0;
             saveButton.onClick.AddListener(OnSaveClick);
             soundToggle.SettingChanged += ChangeSoundState;
             musicToggle.SettingChanged += ChangeMusicState;
@@ -36,10 +38,7 @@ namespace IncredibleGrocery
 
         public void SetActive(bool activate)
         {
-            if (gameObject.activeSelf != activate)
-            {
-                gameObject.SetActive(activate);
-            }
+            gameObject.SetActive(activate);
         }
 
         private void ChangeSoundState(bool isOn)
@@ -58,12 +57,12 @@ namespace IncredibleGrocery
         {
             _saveDataManager.SaveSettingsData(_settingsData);
             SetActive(false);
-            Time.timeScale = 1;
             EventBus.Instance.OnButtonClicked();
         }
 
         private void OnDisable()
         {
+            Time.timeScale = 1;
             saveButton.onClick.RemoveListener(OnSaveClick);
             soundToggle.SettingChanged -= ChangeSoundState;
             musicToggle.SettingChanged -= ChangeMusicState;

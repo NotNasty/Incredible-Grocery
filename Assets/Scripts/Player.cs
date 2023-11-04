@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using IncredibleGrocery.Clouds;
+using IncredibleGrocery.Products;
 using UnityEngine;
 
 namespace IncredibleGrocery
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField] private SellCloud cloudPrefab;
+        [SerializeField] private PlayerCloud cloudPrefab;
 
         private void OnEnable()
         {

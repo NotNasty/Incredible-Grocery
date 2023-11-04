@@ -1,30 +1,31 @@
-using UnityEngine;
 using TMPro;
-using IncredibleGrocery;
+using UnityEngine;
 
-[RequireComponent(typeof(TextMeshPro))]
-public class MoneyView : MonoBehaviour
+namespace IncredibleGrocery.Money
 {
-    private TMP_Text _text;
-
-
-    public void Init()
+    [RequireComponent(typeof(TextMeshProUGUI))]
+    public class MoneyView : MonoBehaviour
     {
-        _text = GetComponent<TMP_Text>();
-    }
+        private TextMeshProUGUI _moneyText;
 
-    private void OnEnable()
-    {
-        EventBus.Instance.BalanceChanged += ChangeMoneyBalance;
-    }
+        public void Init()
+        {
+            _moneyText = GetComponent<TextMeshProUGUI>();
+        }
 
-    private void ChangeMoneyBalance(int moneyBalance)
-    {
-        _text.text = string.Format(Constants.MoneyDisplayFormat, moneyBalance);
-    }
+        private void OnEnable()
+        {
+            EventBus.Instance.BalanceChanged += ChangeMoneyBalance;
+        }
 
-    private void OnDisable()
-    {
-        EventBus.Instance.BalanceChanged += ChangeMoneyBalance;
+        private void ChangeMoneyBalance(int moneyBalance)
+        {
+            _moneyText.text = string.Format(Constants.MoneyDisplayFormat, moneyBalance);
+        }
+
+        private void OnDisable()
+        {
+            EventBus.Instance.BalanceChanged += ChangeMoneyBalance;
+        }
     }
 }

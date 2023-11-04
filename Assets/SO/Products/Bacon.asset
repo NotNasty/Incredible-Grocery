@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e85a7adf22c0cf41bbc1e792cad1b5a, type: 3}
-  m_Name: Cabbage
+  m_Name: Bacon
   m_EditorClassIdentifier: 
-  ProductImage: {fileID: 21300000, guid: b736d423afa5b1a4b81008e8b00a5490, type: 3}
+  productImage: {fileID: 21300000, guid: 87374365c4b12c0428c24111b8243bf2, type: 3}
+  price: 10

@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e85a7adf22c0cf41bbc1e792cad1b5a, type: 3}
-  m_Name: Blueberry
+  m_Name: Borshch
   m_EditorClassIdentifier: 
-  ProductImage: {fileID: 21300000, guid: 9221af33049a0ed4f8d3f5853db797d3, type: 3}
+  productImage: {fileID: 21300000, guid: 7585f695dbb53bf40a8c20d34d9d6a1d, type: 3}
+  price: 10

@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using IncredibleGrocery.Audio;
+using IncredibleGrocery.Clouds;
+using IncredibleGrocery.Products;
 
 namespace IncredibleGrocery
 {
@@ -7,17 +10,7 @@ namespace IncredibleGrocery
     {
         private static EventBus _instance;
 
-        public static EventBus Instance
-        {
-            get
-            {
-                if (_instance is null)
-                {
-                    _instance = new EventBus();
-                }
-                return _instance;
-            }
-        }
+        public static EventBus Instance => _instance ??= new EventBus();
 
         public event Action<AudioTypeEnum> ButtonClicked;
         public event Action<AudioTypeEnum> CloudAppeared;
@@ -30,7 +23,7 @@ namespace IncredibleGrocery
 
         public event Action<int> SelectedProductsChanged;
         public event Action<Dictionary<ProductSO, bool>> OrderChecked;
-        public event Action<OrderCloud> OrderGenerated;
+        public event Action<ClientCloud> OrderGenerated;
         public event Action LeftFromShop;
         public event Action<int> BalanceChanged;
         public event Action SaleResultRevealed;
@@ -84,7 +77,7 @@ namespace IncredibleGrocery
             OrderChecked?.Invoke(checkedProducts);
         }
 
-        public void OnOrderGenerated(OrderCloud cloud)
+        public void OnOrderGenerated(ClientCloud cloud)
         {
             OrderGenerated?.Invoke(cloud);
         }
