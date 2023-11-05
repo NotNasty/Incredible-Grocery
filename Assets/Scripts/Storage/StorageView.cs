@@ -26,6 +26,7 @@ namespace IncredibleGrocery.Storage
         public void Init()
         {
             _animator = GetComponent<Animator>();
+            SetActive(false);
             AddProductsButtons();
         }
 

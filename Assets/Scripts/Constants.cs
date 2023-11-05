@@ -30,6 +30,9 @@ namespace IncredibleGrocery
         public const string MoneyDisplayFormat = "$ {0}";
         public const float DestinationToPlayerLimit = 0.2f;
         public const float InactiveImageTransparency = 0.3f;
+
+        public const string OnSettingsText = "ON";
+        public const string OffSettingsText = "OFF";
     }
 }
 

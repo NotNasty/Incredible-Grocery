@@ -30,6 +30,7 @@ namespace IncredibleGrocery.Settings
         {
             _saveDataManager = saveDataManager;
             _settingsData = _saveDataManager.GetSettingsData();
+            SetActive(false);
             soundToggle.Init(onSprite, offSprite, _settingsData.SoundsOn);
             musicToggle.Init(onSprite, offSprite, _settingsData.MusicOn);
             ChangeSoundState(_settingsData.SoundsOn);

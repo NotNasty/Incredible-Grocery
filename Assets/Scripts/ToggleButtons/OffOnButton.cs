@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,11 +14,13 @@ namespace IncredibleGrocery.ToggleButtons
         private Toggle _toggle;
         private Sprite _onImage;
         private Sprite _offImage;
+        private TextMeshProUGUI _onOffText;
 
         public void Init(Sprite onImage, Sprite offImage, bool isOn)
         {
             _image = GetComponent<Image>();
             _toggle = GetComponent<Toggle>();
+            _onOffText = GetComponentInChildren<TextMeshProUGUI>();
             
             _onImage = onImage;
             _offImage = offImage;
@@ -37,6 +40,7 @@ namespace IncredibleGrocery.ToggleButtons
         private void SetOnOffImage(bool isOn)
         {
             _image.sprite = isOn ? _onImage : _offImage;
+            _onOffText.text = isOn ? Constants.OnSettingsText : Constants.OffSettingsText;
         }
     }
 }

@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 1.5, y: 1.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1298502848145049575
 CanvasRenderer:
@@ -112,7 +112,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 1.5, y: 1.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3856994798024589552
 CanvasRenderer:
@@ -246,7 +246,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   negativeReaction: {fileID: 4131088693275823058}
   positiveReaction: {fileID: 3566893656472009811}
-  IsRightSale: 0
 --- !u!114 &7495468254811784657
 MonoBehaviour:
   m_ObjectHideFlags: 0
