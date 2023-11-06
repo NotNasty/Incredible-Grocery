@@ -15,7 +15,7 @@ namespace IncredibleGrocery.Money
 
         private void OnEnable()
         {
-            EventBus.Instance.BalanceChanged += ChangeMoneyBalance;
+            MoneyManager.BalanceChanged += ChangeMoneyBalance;
         }
 
         private void ChangeMoneyBalance(int moneyBalance)
@@ -25,7 +25,7 @@ namespace IncredibleGrocery.Money
 
         private void OnDisable()
         {
-            EventBus.Instance.BalanceChanged += ChangeMoneyBalance;
+            MoneyManager.BalanceChanged += ChangeMoneyBalance;
         }
     }
 }

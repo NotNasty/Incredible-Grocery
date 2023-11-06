@@ -3337,7 +3337,6 @@ GameObject:
   - component: {fileID: 1851811072}
   - component: {fileID: 1851811071}
   - component: {fileID: 1851811070}
-  - component: {fileID: 1851811073}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -3447,18 +3446,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851811068}
   m_CullTransparentMesh: 1
---- !u!114 &1851811073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1851811068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7da4edc41e299548a3a15a217410722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1911903901
 GameObject:
   m_ObjectHideFlags: 0
@@ -3612,9 +3599,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492ed8933509687479ee381145427b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 394690942}
   clientPrefab: {fileID: 2105715080265297033, guid: a2c7444691c99e34e8d09075d202ddbb, type: 3}
   targetPositionForOrdering: {fileID: 371827346}
-  sellButton: {fileID: 5199948241070014282}
   storageView: {fileID: 3931419109870095877}
   mainScreen: {fileID: 130832377}
   audioManager: {fileID: 400932437}
@@ -3929,6 +3916,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e428d496f15100b4ba557b011ad22d7a, type: 2}
   storageGridContent: {fileID: 1989244042757585309}
   productItemPrefab: {fileID: 6871848770677485745, guid: 858968b0b904b7c4d8b4732e3811430b, type: 3}
+  sellButton: {fileID: 6862256040334875310}
   delayOfAppearing: 5
 --- !u!114 &4096960835145727484
 MonoBehaviour:
@@ -4089,18 +4077,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5199948241070014282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9174984060546880160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68b6ecf6680994142a8e11f3a48ffc1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &5278304601182393460
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4303,7 +4279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &9174984060546880160
 GameObject:
   m_ObjectHideFlags: 0
@@ -4316,7 +4292,6 @@ GameObject:
   - component: {fileID: 2341966747228050100}
   - component: {fileID: 322706348159459019}
   - component: {fileID: 6862256040334875310}
-  - component: {fileID: 5199948241070014282}
   m_Layer: 5
   m_Name: SellButton
   m_TagString: Untagged

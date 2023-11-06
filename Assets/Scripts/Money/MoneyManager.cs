@@ -1,10 +1,12 @@
-using IncredibleGrocery.Settings;
+using System;
+using IncredibleGrocery.Audio;
 
 namespace IncredibleGrocery.Money
 {
     public class MoneyManager
     {
-        private readonly SaveDataManager _saveDataManager;
+        public static event Action<int> BalanceChanged;
+        
         private int _money;
 
         private int Money
@@ -13,15 +15,13 @@ namespace IncredibleGrocery.Money
             set
             {
                 _money = value;
-                _saveDataManager.SaveMoneyData(_money);
-                EventBus.Instance.OnBalanceChanged(_money);
+                BalanceChanged?.Invoke(_money);
             }
         }
 
-        public MoneyManager(SaveDataManager saveDataManager)
+        public MoneyManager(int moneyCount)
         {
-            _saveDataManager = saveDataManager;
-            Money = saveDataManager.GetMoneyCount();
+            Money = moneyCount;
         }
 
         public void AddToBalance(int income)
@@ -29,7 +29,7 @@ namespace IncredibleGrocery.Money
             Money += income;
             if (income > 0)
             {
-                EventBus.Instance.OnMoneyPaid();
+                SoundPlayer.PlayMoneyPaid();
             }
         }
     }

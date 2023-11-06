@@ -10,9 +10,20 @@ namespace IncredibleGrocery
     {
         [SerializeField] private PlayerCloud cloudPrefab;
 
-        private void OnEnable()
+        private Client _currentClient;
+        public Client CurrentClient
         {
-            EventBus.Instance.OrderChecked += SellAsync;
+            get => _currentClient;
+            set
+            {
+                if (_currentClient is not null)
+                    _currentClient.OrderChecked -= SellAsync;
+                
+                _currentClient = value;
+                
+                if (_currentClient is not null)
+                    _currentClient.OrderChecked += SellAsync;
+            }
         }
 
         private async void SellAsync(Dictionary<ProductSO, bool> checkedOrder)
@@ -22,14 +33,9 @@ namespace IncredibleGrocery
             await Task.Delay(Constants.OneSecInMilliseconds);
             cloud.RevealReaction();
             await Task.Delay(Constants.OneSecInMilliseconds);
-            EventBus.Instance.OnSaleResultRevealed();
+            CurrentClient.ReactAtSaleOffer();
             await Task.Delay(Constants.OneSecInMilliseconds);
             cloud.RemoveCloud();
-        }
-
-        private void OnDisable()
-        {
-            EventBus.Instance.OrderChecked -= SellAsync;
         }
     }
 }

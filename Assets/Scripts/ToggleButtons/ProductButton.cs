@@ -1,5 +1,6 @@
+using System;
+using IncredibleGrocery.Audio;
 using IncredibleGrocery.Products;
-using IncredibleGrocery.Storage;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ namespace IncredibleGrocery.ToggleButtons
     [RequireComponent(typeof(Toggle), typeof(Image))]
     public class ProductButton : MonoBehaviour
     {
+        public Action<bool, ProductSO> ProductClicked;
+        
         private ProductSO _product;
         private Toggle _toggle;
         private Image _image;
@@ -42,19 +45,10 @@ namespace IncredibleGrocery.ToggleButtons
         private void OnCheckProduct(bool toggleOn, bool playSound = true)
         {
             _image.color = _image.color.ChangeAlphaChanel(toggleOn ? Constants.InactiveImageTransparency : 1);
-            
-            if (toggleOn)
-            {
-                StorageModel.SelectNewProduct(_product);
-            }
-            else
-            {
-                StorageModel.UnselectNewProduct(_product);
-            }
-
+            ProductClicked?.Invoke(toggleOn, _product);
             if (playSound)
             {
-                EventBus.Instance.OnProductSelected();
+                SoundPlayer.PlayProductSelected();
             }
         }
     }

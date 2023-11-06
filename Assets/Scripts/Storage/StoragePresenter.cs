@@ -1,23 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using IncredibleGrocery.Clouds;
+using System.Linq;
 using IncredibleGrocery.Products;
 
 namespace IncredibleGrocery.Storage
 {
     public class StoragePresenter : IDisposable
     {
+        public event Action StartSaleProducts;
+        
         private readonly StorageView _storage;
-        private readonly StorageModelParent _storageModel;
 
-        public StoragePresenter(StorageView storage, StorageModelParent storageModel)
+        public StoragePresenter(StorageView storage)
         {
             _storage = storage;
-            _storageModel = storageModel;
-            EventBus.Instance.SelectedProductsChanged += OnSelectProduct;
-            EventBus.Instance.OrderGenerated += OnOrderEnding;
-            EventBus.Instance.SellButtonClicked += HideStorage;
+            _storage.SellButtonClicked += HideStorage;
         }
 
         public int GetCountOfProducts()
@@ -30,34 +27,43 @@ namespace IncredibleGrocery.Storage
             return _storage.Products[index];
         }
 
-        public bool CheckOrder(HashSet<ProductSO> order, ref int price)
+        public Dictionary<ProductSO, bool> CheckOrder(HashSet<ProductSO> order, ref int price, ref bool orderIsAllCorrect)
         {
-            return _storageModel.CheckOrder(order, ref price);
+            orderIsAllCorrect = true;
+            var checkedOrder = new Dictionary<ProductSO, bool>();
+            foreach (var selectedProduct in _storage.SelectedProducts)
+            {
+                foreach (var orderedProduct in order.Where(product => product.Equals(selectedProduct)))
+                {
+                    checkedOrder.Add(selectedProduct, true);
+                    price += orderedProduct.price;
+                    break;
+                }
+
+                if (!checkedOrder.ContainsKey(selectedProduct))
+                {
+                    orderIsAllCorrect = false;
+                    checkedOrder.Add(selectedProduct, false);
+                }
+            }
+            return checkedOrder;
         }
 
-        private async void OnOrderEnding(ClientCloud cloudManager)
+        public void ShowStorage()
         {
-            await Task.Delay(_storage.delayOfAppearing * Constants.OneSecInMilliseconds);
             _storage.SetActive(true);
             _storage.UncheckAllProducts();
-            cloudManager.RemoveCloud();
-        }
-
-        private void OnSelectProduct(int countOfProducts)
-        {
-            EventBus.Instance.OnNeededCountOfProducts(countOfProducts == Client.ProductsInOrder);
         }
 
         private void HideStorage()
         {
             _storage.SetActive(false);
+            StartSaleProducts?.Invoke();
         }
 
         public void Dispose()
         {
-            EventBus.Instance.SelectedProductsChanged -= OnSelectProduct;
-            EventBus.Instance.OrderGenerated -= OnOrderEnding;
-            EventBus.Instance.SellButtonClicked -= HideStorage;
+            _storage.SellButtonClicked -= HideStorage;
         }
     }
 }

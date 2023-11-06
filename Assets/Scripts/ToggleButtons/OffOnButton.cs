@@ -1,4 +1,5 @@
 using System;
+using IncredibleGrocery.Audio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,7 +35,7 @@ namespace IncredibleGrocery.ToggleButtons
         {
             SetOnOffImage(isOn);
             SettingChanged?.Invoke(isOn);
-            EventBus.Instance.OnButtonClicked();
+            SoundPlayer.PlayButtonClicked();
         }
 
         private void SetOnOffImage(bool isOn)

@@ -1,3 +1,4 @@
+using IncredibleGrocery.Audio;
 using UnityEngine;
 
 namespace IncredibleGrocery.Clouds
@@ -11,12 +12,12 @@ namespace IncredibleGrocery.Clouds
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
-            EventBus.Instance.OnCloudAppeared();
+            SoundPlayer.PlayCloudAppeared();
         }
         
         public void RemoveCloud()
         {
-            EventBus.Instance.OnCloudDisappeared();
+            SoundPlayer.PlayCloudDisappeared();
             _animator.Play(Constants.Disappear);
         }
     }
