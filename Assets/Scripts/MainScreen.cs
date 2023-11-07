@@ -12,17 +12,17 @@ namespace IncredibleGrocery
         [SerializeField] private Button settingsButton;
         [SerializeField] private SettingsPanel settingsPanel;
 
-        public void Init(SaveDataManager saveDataManager, AudioManager audioManager)
+        public void Init(SaveDataManager saveDataManager)
         {
             moneyView.Init();
-            settingsPanel.Init(saveDataManager, audioManager);
+            settingsPanel.Init(saveDataManager);
             settingsButton.onClick.AddListener(OnSettingButtonClick);
         }
 
         private void OnSettingButtonClick()
         {
             settingsPanel.SetActive(true);
-            SoundPlayer.PlayButtonClicked();
+            AudioManager.Instance.PlaySound(AudioTypeEnum.ButtonClicked);
         }
     }
 }

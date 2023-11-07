@@ -14,9 +14,17 @@ namespace IncredibleGrocery.Audio
 
         [SerializeField] private bool musicOn;
         [SerializeField] private bool soundOn;
-
-        public void Init()
+        
+        public static AudioManager Instance { get; private set; }
+        
+        private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+
             musicSource.clip = music;
         }
 
@@ -41,9 +49,8 @@ namespace IncredibleGrocery.Audio
         public void OnOffMusic(bool isMusicOn)
         {
             musicOn = isMusicOn;
-            musicSource.mute = !isMusicOn;
-            if (isMusicOn)
-                PlayMusic();
+            musicSource.mute = !musicOn;
+            PlayMusic();
         }
 
         public void OnOffSounds(bool soundsOn)

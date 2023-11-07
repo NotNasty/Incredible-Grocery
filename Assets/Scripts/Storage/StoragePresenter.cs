@@ -51,13 +51,13 @@ namespace IncredibleGrocery.Storage
 
         public void ShowStorage()
         {
-            _storage.SetActive(true);
+            _storage.ShowHideStorage(true);
             _storage.UncheckAllProducts();
         }
 
         private void HideStorage()
         {
-            _storage.SetActive(false);
+            _storage.ShowHideStorage(false);
             StartSaleProducts?.Invoke();
         }
 

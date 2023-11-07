@@ -35,7 +35,7 @@ namespace IncredibleGrocery.ToggleButtons
         {
             SetOnOffImage(isOn);
             SettingChanged?.Invoke(isOn);
-            SoundPlayer.PlayButtonClicked();
+            AudioManager.Instance.PlaySound(AudioTypeEnum.ButtonClicked);
         }
 
         private void SetOnOffImage(bool isOn)

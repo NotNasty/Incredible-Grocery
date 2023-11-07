@@ -18,9 +18,6 @@ namespace IncredibleGrocery.Clouds
             InstantiateImage().sprite = reaction;
         }
 
-        private Image InstantiateImage()
-        {
-            return Instantiate(orderPrefab, cloudGridContent);
-        }
+        private Image InstantiateImage() => Instantiate(orderPrefab, cloudGridContent);
     }
 }

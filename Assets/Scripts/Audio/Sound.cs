@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace IncredibleGrocery.Audio
 {
-    [Serializable]
-    public class Sound
+    [Serializable, CreateAssetMenu(fileName = "New Sound", menuName = "Sound")]
+    public class Sound : ScriptableObject
     {
         public AudioClip audioClip;
         public AudioTypeEnum audioType;

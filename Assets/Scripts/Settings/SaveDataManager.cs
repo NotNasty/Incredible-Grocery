@@ -35,17 +35,23 @@ namespace IncredibleGrocery.Settings
 
         private void SaveMoneyData(int moneyCount)
         {
-            _saveData.MoneyCount = moneyCount;
-            PlayerPrefs.SetInt(Constants.MoneySettingName, _saveData.MoneyCount);
-            PlayerPrefs.Save();
+            if (_saveData.MoneyCount != moneyCount)
+            {
+                _saveData.MoneyCount = moneyCount;
+                PlayerPrefs.SetInt(Constants.MoneySettingName, _saveData.MoneyCount);
+                PlayerPrefs.Save();
+            }
         }
 
         public void SaveSettingsData(SettingsData settingsData)
         {
-            _saveData.SettingsData = settingsData;
-            PlayerPrefs.SetInt(Constants.MusicOnSettingName, Convert.ToInt32(_saveData.SettingsData.MusicOn));
-            PlayerPrefs.SetInt(Constants.SoundsOnSettingName, Convert.ToInt32(_saveData.SettingsData.SoundsOn));
-            PlayerPrefs.Save();
+            if (!_saveData.SettingsData.Equals(settingsData))
+            {
+                _saveData.SettingsData = settingsData;
+                PlayerPrefs.SetInt(Constants.MusicOnSettingName, Convert.ToInt32(_saveData.SettingsData.MusicOn));
+                PlayerPrefs.SetInt(Constants.SoundsOnSettingName, Convert.ToInt32(_saveData.SettingsData.SoundsOn));
+                PlayerPrefs.Save();
+            }
         }
 
         public void Dispose()

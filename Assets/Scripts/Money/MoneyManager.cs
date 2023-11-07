@@ -26,10 +26,10 @@ namespace IncredibleGrocery.Money
 
         public void AddToBalance(int income)
         {
-            Money += income;
             if (income > 0)
             {
-                SoundPlayer.PlayMoneyPaid();
+                Money += income;
+                AudioManager.Instance.PlaySound(AudioTypeEnum.MoneyPaid);
             }
         }
     }

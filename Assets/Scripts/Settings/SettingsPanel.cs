@@ -17,7 +17,6 @@ namespace IncredibleGrocery.Settings
         [SerializeField] private Sprite offSprite;
 
         private SaveDataManager _saveDataManager;
-        private AudioManager _audioManager;
         private SettingsData _settingsData;
 
         private void OnEnable()
@@ -28,12 +27,11 @@ namespace IncredibleGrocery.Settings
             musicToggle.SettingChanged += ChangeMusicState;
         }
 
-        public void Init(SaveDataManager saveDataManager, AudioManager audioManager)
+        public void Init(SaveDataManager saveDataManager)
         {
             SetActive(false);
             
             _saveDataManager = saveDataManager;
-            _audioManager = audioManager;
             
             _settingsData = _saveDataManager.GetSettingsData();
             soundToggle.Init(onSprite, offSprite, _settingsData.SoundsOn);
@@ -50,20 +48,20 @@ namespace IncredibleGrocery.Settings
         private void ChangeSoundState(bool isOn)
         {
             _settingsData.SoundsOn = isOn;
-            _audioManager.OnOffSounds(isOn);
+            AudioManager.Instance.OnOffSounds(isOn);
         }
 
         private void ChangeMusicState(bool isOn)
         {
             _settingsData.MusicOn = isOn;
-            _audioManager.OnOffMusic(isOn);
+            AudioManager.Instance.OnOffMusic(isOn);
         }
 
         private void OnSaveClick()
         {
             _saveDataManager.SaveSettingsData(_settingsData);
             SetActive(false);
-            SoundPlayer.PlayButtonClicked();
+            AudioManager.Instance.PlaySound(AudioTypeEnum.ButtonClicked);
         }
 
         private void OnDisable()

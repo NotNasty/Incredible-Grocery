@@ -24,15 +24,10 @@ namespace IncredibleGrocery.Storage
         
         public event Action SellButtonClicked;
 
-        private void OnEnable()
-        {
-            _animator.SetBool(Constants.IsActive, true);
-        }
-
         public void Init()
         {
             _animator = GetComponent<Animator>();
-            SetActive(false);
+            SetActive(true);
             AddProductsButtons();
             sellButton.onClick.AddListener(OnSellClick);
         }
@@ -67,6 +62,11 @@ namespace IncredibleGrocery.Storage
             gameObject.SetActive(active);
         }
 
+        public void ShowHideStorage(bool show)
+        {
+            _animator.SetBool(Constants.IsActive, show);
+        }
+
         public void UncheckAllProducts()
         {
             foreach (var button in _productsButtons)
@@ -82,13 +82,8 @@ namespace IncredibleGrocery.Storage
         
         private void OnSellClick()
         {
-            SoundPlayer.PlayButtonClicked();
+            AudioManager.Instance.PlaySound(AudioTypeEnum.ButtonClicked);
             SellButtonClicked?.Invoke();
-        }
-
-        private void OnDisable()
-        {
-            _animator.SetBool(Constants.IsActive, false);
         }
     }
 }

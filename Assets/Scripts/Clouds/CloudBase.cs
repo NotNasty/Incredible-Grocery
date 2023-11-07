@@ -12,12 +12,12 @@ namespace IncredibleGrocery.Clouds
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
-            SoundPlayer.PlayCloudAppeared();
+            AudioManager.Instance.PlaySound(AudioTypeEnum.CloudAppeared);
         }
         
         public void RemoveCloud()
         {
-            SoundPlayer.PlayCloudDisappeared();
+            AudioManager.Instance.PlaySound(AudioTypeEnum.CloudDisappeared);
             _animator.Play(Constants.Disappear);
         }
     }

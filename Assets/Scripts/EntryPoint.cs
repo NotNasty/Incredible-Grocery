@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using IncredibleGrocery.Audio;
 using IncredibleGrocery.Money;
 using IncredibleGrocery.Settings;
 using IncredibleGrocery.Storage;
@@ -21,23 +20,18 @@ namespace IncredibleGrocery
         [Header("UI")]
         [SerializeField] private MainScreen mainScreen;
 
-        [Header("Audio Manager")]
-        [SerializeField] private AudioManager audioManager;
-
         private MoneyManager _moneyManager;
         private StoragePresenter _storagePresenter;
         private Client _client;
         private ShopStateEnum _shopState;
         private SaveDataManager _saveDataManager;
-        private SoundPlayer _soundPlayer;
 
         private void Awake()
         {
             _saveDataManager = new SaveDataManager();
 
             Init();
-
-            _soundPlayer = new SoundPlayer(audioManager);
+            
             _storagePresenter = new StoragePresenter(storageView);
             _moneyManager = new MoneyManager(_saveDataManager.GetMoneyCount());
             _shopState = ShopStateEnum.NoClient;
@@ -45,9 +39,8 @@ namespace IncredibleGrocery
 
         private void Init()
         {
-            audioManager.Init();
             storageView.Init();
-            mainScreen.Init(_saveDataManager, audioManager);
+            mainScreen.Init(_saveDataManager);
         }
 
         private void Update()

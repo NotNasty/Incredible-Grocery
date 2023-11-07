@@ -48,7 +48,7 @@ namespace IncredibleGrocery.ToggleButtons
             ProductClicked?.Invoke(toggleOn, _product);
             if (playSound)
             {
-                SoundPlayer.PlayProductSelected();
+                AudioManager.Instance.PlaySound(AudioTypeEnum.ProductSelected);
             }
         }
     }
