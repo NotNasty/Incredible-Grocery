@@ -6,6 +6,8 @@ namespace IncredibleGrocery.Audio
         CloudDisappeared,
         ButtonClicked,
         MoneyPaid,
-        ProductSelected
+        ProductSelected,
+        BadService,
+        MoneySpent
     }
 }
