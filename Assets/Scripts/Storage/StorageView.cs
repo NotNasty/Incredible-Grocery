@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using IncredibleGrocery.Audio;
+using IncredibleGrocery.ClientLogic;
 using IncredibleGrocery.Products;
 using IncredibleGrocery.ToggleButtons;
 using UnityEngine;

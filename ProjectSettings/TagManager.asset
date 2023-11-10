@@ -38,6 +38,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2020435061
+    locked: 0
+  - name: Leaving Client
+    uniqueID: 1441160441
+    locked: 0
+  - name: Client
+    uniqueID: 3547950701
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Table
+    uniqueID: 1815967517
+    locked: 0
+  - name: Cash Machine
+    uniqueID: 1321896599
+    locked: 0
+  - name: Player
+    uniqueID: 932383295
     locked: 0

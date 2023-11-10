@@ -33,6 +33,8 @@ namespace IncredibleGrocery
 
         public const string OnSettingsText = "ON";
         public const string OffSettingsText = "OFF";
+
+        public const string LeavingClientSortingLayer = "Leaving Client";
     }
 }
 
