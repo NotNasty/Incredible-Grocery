@@ -1,37 +1,61 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IncredibleGrocery.Audio;
+using IncredibleGrocery.ClientLogic;
 using IncredibleGrocery.Products;
+using IncredibleGrocery.ToggleButtons;
 
 namespace IncredibleGrocery.Storage
 {
     public class StoragePresenter : IDisposable
     {
-        public event Action StartSaleProducts;
+        private readonly StorageView _view;
+        private readonly List<ProductSO> _products;
+        private readonly List<ProductButton> _productsButtons = new();
+        private readonly List<ProductSO> _selectedProducts = new();
         
-        private readonly StorageView _storage;
+        public event Action StartSaleProducts;
 
-        public StoragePresenter(StorageView storage)
+        public StoragePresenter(StorageView view, List<ProductSO> products)
         {
-            _storage = storage;
-            _storage.SellButtonClicked += HideStorage;
+            _view = view;
+            _products = products;
+            _view.SellButtonClicked += HideView;
+            _view.Init();
+            AddProductsButtons();
         }
-
-        public int GetCountOfProducts()
+        
+        private void AddProductsButtons()
         {
-            return _storage.Products.Count;
+            foreach (var product in _products)
+            {
+                ProductButton productButton = _view.CreateProductButton();
+                productButton.SetProduct(product);
+                productButton.ProductClicked += OnProductClicked;
+                _productsButtons.Add(productButton);
+            }
         }
-
-        public ProductSO GetProductByIndex(int index)
+        
+        private void OnProductClicked(bool isSelected, ProductSO product)
         {
-            return _storage.Products[index];
+            if (isSelected)
+            {
+                _selectedProducts.Add(product);
+            }
+            else
+            {
+                _selectedProducts.Remove(product);
+            }
+
+            _view.SetSellButtonInteractable(_selectedProducts.Count == Client.ProductsInOrder);
         }
 
         public Dictionary<ProductSO, bool> CheckOrder(HashSet<ProductSO> order, ref int price, ref bool orderIsAllCorrect)
         {
             orderIsAllCorrect = true;
             var checkedOrder = new Dictionary<ProductSO, bool>();
-            foreach (var selectedProduct in _storage.SelectedProducts)
+            foreach (var selectedProduct in _selectedProducts)
             {
                 foreach (var orderedProduct in order.Where(product => product.Equals(selectedProduct)))
                 {
@@ -51,19 +75,28 @@ namespace IncredibleGrocery.Storage
 
         public void ShowStorage()
         {
-            _storage.ShowHideStorage(true);
-            _storage.UncheckAllProducts();
+            UncheckAllProducts();
+            _view.ShowHideStorage(true);
         }
 
-        private void HideStorage()
+        private void UncheckAllProducts()
         {
-            _storage.ShowHideStorage(false);
+            foreach (var button in _productsButtons)
+            {
+                button.UncheckProduct();
+            }
+        }
+
+        private void HideView()
+        {
+            _view.ShowHideStorage(false);
+            AudioManager.Instance.PlaySound(AudioTypeEnum.ButtonClicked);
             StartSaleProducts?.Invoke();
         }
 
         public void Dispose()
         {
-            _storage.SellButtonClicked -= HideStorage;
+            _view.SellButtonClicked -= HideView;
         }
     }
 }

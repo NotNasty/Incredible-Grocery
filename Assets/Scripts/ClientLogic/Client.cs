@@ -49,21 +49,23 @@ namespace IncredibleGrocery.ClientLogic
         [SerializeField] private Sprite negativeReaction;
         [SerializeField] private int minCountOfOrders;
         [SerializeField] private int maxCountOfOrders;
-        public ClientAnimationManager animationManager;
-
+        
         private HashSet<ProductSO> _order;
         private MoneyManager _moneyManager;
         private bool _orderIsAllCorrect = true;
         private StoragePresenter _storagePresenter;
         private int _paidPrice;
-
+        private List<ProductSO> _products;
         private const int TimeOfShowingOrder = 5;
+        
+        public ClientAnimationManager animationManager;
 
-        public void Init(Vector2 targetPosition, MoneyManager moneyManager, StoragePresenter storagePresenter, bool firstInQueue)
+        public void Init(Vector2 targetPosition, MoneyManager moneyManager, StoragePresenter storagePresenter, List<ProductSO> products, bool firstInQueue)
         {
             animationManager.Init();
             _moneyManager = moneyManager;
             _storagePresenter = storagePresenter;
+            _products = products;
             
             _stateMachine = new ClientStateMachine();
             ClientLeaving = new ClientLeaving(this, _stateMachine, transform.position);
@@ -111,9 +113,9 @@ namespace IncredibleGrocery.ClientLogic
             var taken = new HashSet<ProductSO>();
             while (taken.Count < ProductsInOrder)
             {
-                int pickedUpProduct = Random.Range(0, _storagePresenter.GetCountOfProducts() - 1);
+                int pickedUpProduct = Random.Range(0, _products.Count - 1);
                 int previousTakenCount = taken.Count;
-                var takenProduct = _storagePresenter.GetProductByIndex(pickedUpProduct);
+                var takenProduct = _products[pickedUpProduct];
                 taken.Add(takenProduct);
                 if (taken.Count > previousTakenCount)
                     cloudManager.AddOrder(takenProduct);

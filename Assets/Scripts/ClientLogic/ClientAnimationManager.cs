@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace IncredibleGrocery.ClientLogic
@@ -17,37 +16,12 @@ namespace IncredibleGrocery.ClientLogic
 
         public void SetAnimation(ClientAnimationType clientAnimationType)
         {
-            switch (clientAnimationType)
+            _animator.SetBool(Constants.IsWaiting, clientAnimationType == ClientAnimationType.Waiting);
+            if (clientAnimationType == ClientAnimationType.Leaving)
             {
-                case ClientAnimationType.Leaving:
-                    Leaving();
-                    break;
-                case ClientAnimationType.Waiting:
-                    StartWaiting();
-                    break;
-                case ClientAnimationType.Walking:
-                    Walking();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(clientAnimationType), clientAnimationType, null);
+                _sprite.sortingLayerID = SortingLayer.NameToID(Constants.LeavingClientSortingLayer);
+                _sprite.flipX = true;
             }
-        }
-
-        private void Walking()
-        {
-            _animator.SetBool(Constants.IsWaiting, false);
-        }
-
-        private void StartWaiting()
-        {
-            _animator.SetBool(Constants.IsWaiting, true);
-        }
-
-        private void Leaving()
-        {
-             _animator.SetBool(Constants.IsWaiting, false);
-             _sprite.sortingLayerID = SortingLayer.NameToID(Constants.LeavingClientSortingLayer);
-            _sprite.flipX = true;
         }
     }
 }
