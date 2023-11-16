@@ -9,9 +9,7 @@ namespace IncredibleGrocery.ClientLogic
     {
         public event Action WaitingTimeEnded;
         
-        [SerializeField] private Color happyColor;
-        [SerializeField] private Color middleColor;
-        [SerializeField] private Color sadColor;
+        [SerializeField] private Gradient colorGradient;
         
         private float _currentTime;
         private Image _progressImage;
@@ -20,8 +18,8 @@ namespace IncredibleGrocery.ClientLogic
         private void Start()
         {
             _progressImage = GetComponent<Image>();
-            _maxWaitingTime = Random.Range(10, 16);
-            _progressImage.color = happyColor;
+            _maxWaitingTime = Random.Range(15, 21);
+            _progressImage.color = SetColor(1);
         }
 
         public void UpdateProgressBar()
@@ -38,13 +36,7 @@ namespace IncredibleGrocery.ClientLogic
 
         private Color SetColor(float fillAmount)
         {
-            return fillAmount switch
-            {
-                < 0.33f => sadColor,
-                < 0.66f and > 0.33f => middleColor,
-                > 0.66f => happyColor,
-                _ => sadColor
-            };
+            return colorGradient.Evaluate(fillAmount);
         }
     }
 }

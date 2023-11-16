@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using IncredibleGrocery.Audio;
 using IncredibleGrocery.ClientLogic.States;
 using IncredibleGrocery.Clouds;
-using IncredibleGrocery.Money;
 using IncredibleGrocery.Products;
 using IncredibleGrocery.Storage;
 using UnityEngine;
@@ -51,19 +50,19 @@ namespace IncredibleGrocery.ClientLogic
         [SerializeField] private int maxCountOfOrders;
         public ClientAnimationManager animationManager;
 
-        private HashSet<ProductSO> _order;
-        private MoneyManager _moneyManager;
+        private HashSet<Product> _order;
+        private List<Product> _products;
         private bool _orderIsAllCorrect = true;
-        private StoragePresenter _storagePresenter;
+        private StoragesManager _storagesManager;
         private int _paidPrice;
 
         private const int TimeOfShowingOrder = 5;
 
-        public void Init(Vector2 targetPosition, MoneyManager moneyManager, StoragePresenter storagePresenter, bool firstInQueue)
+        public void Init(Vector2 targetPosition, List<Product> products, StoragesManager storagesManager, bool firstInQueue)
         {
             animationManager.Init();
-            _moneyManager = moneyManager;
-            _storagePresenter = storagePresenter;
+            _products = products;
+            _storagesManager = storagesManager;
             
             _stateMachine = new ClientStateMachine();
             ClientLeaving = new ClientLeaving(this, _stateMachine, transform.position);
@@ -102,51 +101,50 @@ namespace IncredibleGrocery.ClientLogic
             _stateMachine.SwitchState(ClientWaitingForOrder);
             await Task.Delay(TimeOfShowingOrder * Constants.OneSecInMilliseconds);
             cloud.RemoveCloud();
-            _storagePresenter.ShowStorage();
         }
 
-        private HashSet<ProductSO> OnMakingOrder(ClientCloud cloudManager)
+        private HashSet<Product> OnMakingOrder(ClientCloud cloudManager)
         {
             ProductsInOrder = Random.Range(minCountOfOrders, maxCountOfOrders + 1);
-            var taken = new HashSet<ProductSO>();
+            var taken = new HashSet<Product>();
             while (taken.Count < ProductsInOrder)
             {
-                int pickedUpProduct = Random.Range(0, _storagePresenter.GetCountOfProducts() - 1);
+                int pickedUpProduct = Random.Range(0, _products.Count - 1);
                 int previousTakenCount = taken.Count;
-                var takenProduct = _storagePresenter.GetProductByIndex(pickedUpProduct);
+                var takenProduct = _products[pickedUpProduct];
                 taken.Add(takenProduct);
                 if (taken.Count > previousTakenCount)
-                    cloudManager.AddOrder(takenProduct);
+                    cloudManager.AddImage(takenProduct.productImage);
             }
             return taken;
         }
 
-        public Dictionary<ProductSO, bool> CheckOrder()
+        public Dictionary<Product, bool> CheckOrder(List<Product> selectedProducts)
         {
-            return _storagePresenter.CheckOrder(_order, ref _paidPrice, ref _orderIsAllCorrect);
+            return _storagesManager.SellStoragePresenter.CheckOrder(selectedProducts, 
+                _order, ref _paidPrice, out _orderIsAllCorrect);
         }
 
-        public async void ReactAtSaleOffer()
+        public int ReactAtSaleOffer()
         {
             var cloudManager = Instantiate(cloudPrefab, transform);
             if (_orderIsAllCorrect)
             {
-                cloudManager.AddReaction(positiveReaction);
+                cloudManager.AddImage(positiveReaction);
                 _paidPrice *= 2;
             }
             else
             {
-                cloudManager.AddReaction(negativeReaction);
+                cloudManager.AddImage(negativeReaction);
             }
-            _moneyManager.AddToBalance(_paidPrice);
-            await Task.Delay(Constants.OneSecInMilliseconds);
             LeaveShop();
+            return _paidPrice;
         }
         
         public void LeaveOnEndWaitingTime()
         {
             var cloudManager = Instantiate(cloudPrefab, transform);
-            cloudManager.AddReaction(negativeReaction);
+            cloudManager.AddImage(negativeReaction);
             AudioManager.Instance.PlaySound(AudioTypeEnum.BadService);
             LeaveShop();
         }

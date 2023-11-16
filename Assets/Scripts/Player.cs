@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using IncredibleGrocery.ClientLogic;
 using IncredibleGrocery.Clouds;
+using IncredibleGrocery.Money;
 using IncredibleGrocery.Products;
-using IncredibleGrocery.Storage;
+using IncredibleGrocery.Storage.SellStorage;
 using UnityEngine;
 
 namespace IncredibleGrocery
@@ -12,30 +13,27 @@ namespace IncredibleGrocery
     {
         [SerializeField] private PlayerCloud cloudPrefab;
         
-        private StoragePresenter _storagePresenter;
-        private Client _currentClient;
-        public Client CurrentClient
-        {
-            get => _currentClient;
-            set => _currentClient = value;
-        }
+        private SellStoragePresenter _sellStoragePresenter;
+        private MoneyManager _moneyManager;
+        public Client CurrentClient { get; set; }
 
-        public void Init(StoragePresenter storagePresenter)
+        public void Init(SellStoragePresenter sellStoragePresenter, MoneyManager moneyManager)
         {
-            _storagePresenter = storagePresenter;
+            _sellStoragePresenter = sellStoragePresenter;
+            _moneyManager = moneyManager;
             
-            _storagePresenter.StartSaleProducts += SellAsync;
+            _sellStoragePresenter.StartSaleProducts += SellAsync;
         }
 
-        private async void SellAsync()
+        private async void SellAsync(List<Product> selectedProducts)
         {
-            var checkedOrder = _currentClient.CheckOrder();
+            var checkedOrder = CurrentClient.CheckOrder(selectedProducts);
             var cloud = Instantiate(cloudPrefab, transform);
             cloud.AddSales(checkedOrder);
             await Task.Delay(Constants.OneSecInMilliseconds);
             cloud.RevealReaction();
             await Task.Delay(Constants.OneSecInMilliseconds);
-            CurrentClient.ReactAtSaleOffer();
+            _moneyManager.AddToBalance(CurrentClient.ReactAtSaleOffer());
             await Task.Delay(Constants.OneSecInMilliseconds);
             cloud.RemoveCloud();
         }

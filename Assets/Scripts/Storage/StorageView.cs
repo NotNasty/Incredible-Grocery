@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using IncredibleGrocery.Audio;
-using IncredibleGrocery.ClientLogic;
-using IncredibleGrocery.Products;
-using IncredibleGrocery.ToggleButtons;
+using IncredibleGrocery.ToggleButtons.Product_Buttons;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,79 +8,36 @@ namespace IncredibleGrocery.Storage
     [RequireComponent(typeof(Animator))]
     public class StorageView : MonoBehaviour
     {
-        [SerializeField] private List<ProductSO> products;
+        public event Action SwitchViews;
+        
+        [SerializeField] private Button button;
         [SerializeField] private Transform storageGridContent;
         [SerializeField] private ProductButton productItemPrefab;
-        [SerializeField] private Button sellButton;
+        [SerializeField] private Button switchModeButton;
         
         private Animator _animator;
-        private readonly List<ProductButton> _productsButtons = new();
+        private StoragePresenter _storagePresenter;
         
-        public List<ProductSO> Products => products;
-        public List<ProductSO> SelectedProducts { get; } = new();
-        
-        public event Action SellButtonClicked;
+        public ProductButton CreateProductButton() => Instantiate(productItemPrefab, storageGridContent);
 
-        public void Init()
+        public virtual void Init(StoragePresenter storagePresenter)
         {
             _animator = GetComponent<Animator>();
-            SetActive(true);
-            AddProductsButtons();
-            sellButton.onClick.AddListener(OnSellClick);
-        }
-
-        private void AddProductsButtons()
-        {
-            foreach (var product in Products)
-            {
-                var productButton = Instantiate(productItemPrefab, storageGridContent);
-                productButton.SetProduct(product);
-                productButton.ProductClicked += OnProductClicked;
-                _productsButtons.Add(productButton);
-            }
-        }
-
-        private void OnProductClicked(bool isSelected, ProductSO product)
-        {
-            if (isSelected)
-            {
-                SelectedProducts.Add(product);
-            }
-            else
-            {
-                SelectedProducts.Remove(product);
-            }
-
-            SetSellButtonInteractable(SelectedProducts.Count == Client.ProductsInOrder);
-        }
-
-        public void SetActive(bool active)
-        {
-            gameObject.SetActive(active);
+            _storagePresenter = storagePresenter;
+            gameObject.SetActive(true);
+            switchModeButton.onClick.AddListener(() => SwitchViews?.Invoke());
+            button.onClick.AddListener(() => _storagePresenter.OnButtonClicked());
         }
 
         public void ShowHideStorage(bool show)
         {
+            _storagePresenter.UpdateProductButtons();
             _animator.SetBool(Constants.IsActive, show);
         }
 
-        public void UncheckAllProducts()
+        public void SetButtonInteractable(bool interactable)
         {
-            foreach (var button in _productsButtons)
-            {
-                button.UncheckProduct();
-            }
-        }
-        
-        private void SetSellButtonInteractable(bool isNeededCountReached)
-        {
-            sellButton.interactable = isNeededCountReached;
-        }
-        
-        private void OnSellClick()
-        {
-            AudioManager.Instance.PlaySound(AudioTypeEnum.ButtonClicked);
-            SellButtonClicked?.Invoke();
+            button.interactable = interactable;
         }
     }
 }

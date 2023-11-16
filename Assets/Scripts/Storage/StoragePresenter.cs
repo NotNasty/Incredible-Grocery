@@ -1,69 +1,68 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using IncredibleGrocery.Audio;
+using IncredibleGrocery.Money;
 using IncredibleGrocery.Products;
+using IncredibleGrocery.ToggleButtons.Product_Buttons;
 
 namespace IncredibleGrocery.Storage
 {
-    public class StoragePresenter : IDisposable
+    public abstract class StoragePresenter
     {
-        public event Action StartSaleProducts;
+        private readonly ProductsList _products;
+        private readonly List<ProductButton> _productsButtons = new();
         
-        private readonly StorageView _storage;
-
-        public StoragePresenter(StorageView storage)
+        protected StorageView View { get; }
+        protected List<Product> SelectedProducts { get; } = new();
+        protected MoneyManager MoneyManager { get; }
+        
+        protected StoragePresenter(StorageView view, ProductsList products, MoneyManager moneyManager)
         {
-            _storage = storage;
-            _storage.SellButtonClicked += HideStorage;
+            View = view;
+            View.Init(this);
+            
+            MoneyManager = moneyManager;
+
+            _products = products;
+            
+            AddProductsButtons();
         }
-
-        public int GetCountOfProducts()
+        
+        private void AddProductsButtons()
         {
-            return _storage.Products.Count;
-        }
-
-        public ProductSO GetProductByIndex(int index)
-        {
-            return _storage.Products[index];
-        }
-
-        public Dictionary<ProductSO, bool> CheckOrder(HashSet<ProductSO> order, ref int price, ref bool orderIsAllCorrect)
-        {
-            orderIsAllCorrect = true;
-            var checkedOrder = new Dictionary<ProductSO, bool>();
-            foreach (var selectedProduct in _storage.SelectedProducts)
+            foreach (var product in _products.products)
             {
-                foreach (var orderedProduct in order.Where(product => product.Equals(selectedProduct)))
-                {
-                    checkedOrder.Add(selectedProduct, true);
-                    price += orderedProduct.price;
-                    break;
-                }
-
-                if (!checkedOrder.ContainsKey(selectedProduct))
-                {
-                    orderIsAllCorrect = false;
-                    checkedOrder.Add(selectedProduct, false);
-                }
+                var productButton = View.CreateProductButton();
+                productButton.SetProduct(product);
+                productButton.ProductClicked += OnProductClicked;
+                _productsButtons.Add(productButton);
             }
-            return checkedOrder;
         }
 
-        public void ShowStorage()
+        protected virtual void OnProductClicked(bool isSelected, Product product)
         {
-            _storage.ShowHideStorage(true);
-            _storage.UncheckAllProducts();
+            if (isSelected)
+            {
+                SelectedProducts.Add(product);
+            }
+            else
+            {
+                SelectedProducts.Remove(product);
+            }
         }
 
-        private void HideStorage()
+        public virtual void OnButtonClicked()
         {
-            _storage.ShowHideStorage(false);
-            StartSaleProducts?.Invoke();
+            AudioManager.Instance.PlaySound(AudioTypeEnum.ButtonClicked);
+            UpdateProductButtons();
         }
 
-        public void Dispose()
+        public void UpdateProductButtons()
         {
-            _storage.SellButtonClicked -= HideStorage;
+            foreach (var button in _productsButtons)
+            {
+                button.UncheckProduct();
+                button.UpdateProduct();
+            }
         }
     }
 }

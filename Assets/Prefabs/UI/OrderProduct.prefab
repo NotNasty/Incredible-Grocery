@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2427048992882148895}
   - component: {fileID: 5657271707523095384}
-  - component: {fileID: 6871848770677485745}
+  - component: {fileID: -6178883784498592215}
   - component: {fileID: 5488238381612888790}
   - component: {fileID: 5962267156750001147}
   m_Layer: 5
-  m_Name: Product
+  m_Name: OrderProduct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,7 +49,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371368848178097192}
   m_CullTransparentMesh: 1
---- !u!114 &6871848770677485745
+--- !u!114 &-6178883784498592215
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1371368848178097192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b74ceff5fe375ea4ca5b3023662bec24, type: 3}
+  m_Script: {fileID: 11500000, guid: e9e2e6e342774944783d444a6be41e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5488238381612888790
@@ -184,10 +184,10 @@ RectTransform:
   m_Father: {fileID: 2427048992882148895}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.214, y: -1.214}
-  m_SizeDelta: {x: 66.004, y: 70.86}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.0000076293945, y: 0.0000076293945}
+  m_SizeDelta: {x: -0.000030518, y: 0.000015259}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3098116145104091408
 CanvasRenderer:
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fdb878fab5aacfb499ca769a84325eec, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1b3afd4152ef06e4caaac1bab38a71b2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

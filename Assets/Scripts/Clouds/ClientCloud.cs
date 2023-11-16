@@ -1,4 +1,3 @@
-using IncredibleGrocery.Products;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,14 +7,9 @@ namespace IncredibleGrocery.Clouds
     {
         [SerializeField] private Image orderPrefab;
 
-        public void AddOrder(ProductSO product)
+        public void AddImage(Sprite image)
         {
-            InstantiateImage().sprite = product.productImage;
-        }
-
-        public void AddReaction(Sprite reaction)
-        {
-            InstantiateImage().sprite = reaction;
+            InstantiateImage().sprite = image;
         }
 
         private Image InstantiateImage() => Instantiate(orderPrefab, cloudGridContent);
