@@ -12,7 +12,7 @@ namespace IncredibleGrocery.Clouds
         
         private readonly List<SellToggleButton> _saleButtons = new();
 
-        public void AddSales(Dictionary<ProductSO, bool> checkedOrder)
+        public void AddSales(Dictionary<Product, bool> checkedOrder)
         {
             foreach (var product in checkedOrder)
             {

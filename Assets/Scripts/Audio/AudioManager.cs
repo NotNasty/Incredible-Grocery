@@ -7,13 +7,13 @@ namespace IncredibleGrocery.Audio
     public class AudioManager : MonoBehaviour
     {
         public AudioClip music;
-        public Sound[] sounds;
+        public AudioAssets audioAssets;
 
         public AudioSource musicSource;
         public AudioSource soundSource;
 
-        [SerializeField] private bool musicOn;
-        [SerializeField] private bool soundOn;
+        private bool musicOn;
+        private bool soundOn;
         
         public static AudioManager Instance { get; private set; }
         
@@ -41,7 +41,7 @@ namespace IncredibleGrocery.Audio
             if (!soundOn)
                 return;
             
-            var sound = sounds.SingleOrDefault(x => x.audioType == audioType);
+            var sound = audioAssets.sounds.SingleOrDefault(x => x.audioType == audioType);
             Assert.IsNotNull(sound);
             soundSource.PlayOneShot(sound.audioClip);
         }
