@@ -48,13 +48,13 @@ namespace IncredibleGrocery.Settings
         private void ChangeSoundState(bool isOn)
         {
             _settingsData.SoundsOn = isOn;
-            AudioManager.Instance.OnOffSounds(isOn);
+            AudioManager.Instance.OnOffSounds(_settingsData.SoundsOn);
         }
 
         private void ChangeMusicState(bool isOn)
         {
             _settingsData.MusicOn = isOn;
-            AudioManager.Instance.OnOffMusic(isOn);
+            AudioManager.Instance.OnOffMusic(_settingsData.MusicOn);
         }
 
         private void OnSaveClick()

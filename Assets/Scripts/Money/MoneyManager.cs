@@ -9,10 +9,10 @@ namespace IncredibleGrocery.Money
         
         private int _money;
 
-        private int Money
+        public int Money
         {
             get => _money;
-            set
+            private set
             {
                 _money = value;
                 BalanceChanged?.Invoke(_money);
@@ -26,10 +26,10 @@ namespace IncredibleGrocery.Money
 
         public void AddToBalance(int income)
         {
-            if (income > 0)
+            if (income != 0)
             {
                 Money += income;
-                AudioManager.Instance.PlaySound(AudioTypeEnum.MoneyPaid);
+                AudioManager.Instance.PlaySound(income > 0 ? AudioTypeEnum.MoneyEarned : AudioTypeEnum.MoneySpent);
             }
         }
     }
