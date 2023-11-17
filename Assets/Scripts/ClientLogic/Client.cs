@@ -63,6 +63,7 @@ namespace IncredibleGrocery.ClientLogic
             animationManager.Init();
             _products = products;
             ProgressBar = GetComponentInChildren<ClientProgressBar>();
+            ProgressBar.WaitingTimeEnded += LeaveOnEndWaitingTime;
             
             _stateMachine = new ClientStateMachine();
             ClientLeaving = new ClientLeaving(this, _stateMachine, transform.position);
@@ -143,8 +144,8 @@ namespace IncredibleGrocery.ClientLogic
             LeaveShop();
             return _paidPrice;
         }
-        
-        public void LeaveOnEndWaitingTime()
+
+        private void LeaveOnEndWaitingTime()
         {
             var cloudManager = Instantiate(cloudPrefab, transform);
             cloudManager.AddImage(negativeReaction);
