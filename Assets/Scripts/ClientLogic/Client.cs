@@ -144,8 +144,8 @@ namespace IncredibleGrocery.ClientLogic
             LeaveShop();
             return _paidPrice;
         }
-        
-        public void LeaveOnEndWaitingTime()
+
+        private void LeaveOnEndWaitingTime()
         {
             var cloudManager = Instantiate(cloudPrefab, transform);
             cloudManager.AddImage(negativeReaction);
