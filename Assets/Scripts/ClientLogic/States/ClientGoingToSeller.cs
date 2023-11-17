@@ -14,7 +14,7 @@ namespace IncredibleGrocery.ClientLogic.States
         {
             if (client.MoveClient(client.TargetPosition))
             {
-                clientStateMachine.SwitchState(client.ClientOrdering);
+                clientStateMachine.SetState(client.ClientOrdering);
             }
         }
     }

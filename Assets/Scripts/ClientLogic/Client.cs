@@ -16,6 +16,7 @@ namespace IncredibleGrocery.ClientLogic
         public event Action<Client> LeftFromShop;
         
         public static int ProductsInOrder { get; private set; }
+        public ClientProgressBar ProgressBar { get; private set; }
 
         #region State Machine
         
@@ -26,6 +27,7 @@ namespace IncredibleGrocery.ClientLogic
         public ClientWaitingForOrder ClientWaitingForOrder { get; private set; }
         public ClientLeaving ClientLeaving { get; private set; }
         public ClientGoingToSeller ClientGoingToSeller { get; private set; }
+        public ClientReceivedOrder ClientReceivedOrder { get; private set; }
         
         #endregion
 
@@ -39,7 +41,7 @@ namespace IncredibleGrocery.ClientLogic
                     return;
                 
                 _targetPosition = value;
-                _stateMachine.SwitchState(ClientMovingInQueue);
+                _stateMachine.SetState(ClientMovingInQueue);
             }
         }
 
@@ -48,6 +50,7 @@ namespace IncredibleGrocery.ClientLogic
         [SerializeField] private Sprite negativeReaction;
         [SerializeField] private int minCountOfOrders;
         [SerializeField] private int maxCountOfOrders;
+        [SerializeField] private float speed;
         public ClientAnimationManager animationManager;
 
         private HashSet<Product> _order;
@@ -63,6 +66,7 @@ namespace IncredibleGrocery.ClientLogic
             animationManager.Init();
             _products = products;
             _storagesManager = storagesManager;
+            ProgressBar = GetComponentInChildren<ClientProgressBar>();
             
             _stateMachine = new ClientStateMachine();
             ClientLeaving = new ClientLeaving(this, _stateMachine, transform.position);
@@ -71,9 +75,10 @@ namespace IncredibleGrocery.ClientLogic
             ClientMovingInQueue = new ClientMovingInQueue(this, _stateMachine);
             ClientWaitingForOrder = new ClientWaitingForOrder(this, _stateMachine);
             ClientGoingToSeller = new ClientGoingToSeller(this, _stateMachine);
+            ClientReceivedOrder = new ClientReceivedOrder(this, _stateMachine);
             
             TargetPosition = targetPosition;
-            _stateMachine.Initialize(firstInQueue ? ClientGoingToSeller : ClientMovingInQueue);
+            _stateMachine.SetState(firstInQueue ? ClientGoingToSeller : ClientMovingInQueue);
         }
 
         private void Update()
@@ -84,12 +89,13 @@ namespace IncredibleGrocery.ClientLogic
         public void GoToSeller()
         {
             if (_stateMachine.CurrentState == ClientWaitingInQueue || _stateMachine.CurrentState == ClientMovingInQueue)
-                _stateMachine.SwitchState(ClientGoingToSeller);
+                _stateMachine.SetState(ClientGoingToSeller);
         }
 
         public bool MoveClient(Vector2 targetPosition)
         {
-            transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, 
+                speed*Time.deltaTime);
             return Vector2.Distance(transform.position, targetPosition) < Constants.DestinationToPlayerLimit;
         }
 
@@ -98,7 +104,7 @@ namespace IncredibleGrocery.ClientLogic
             animationManager.SetAnimation(ClientAnimationType.Waiting);
             var cloud = Instantiate(cloudPrefab, transform);
             _order = OnMakingOrder(cloud);
-            _stateMachine.SwitchState(ClientWaitingForOrder);
+            _stateMachine.SetState(ClientWaitingForOrder);
             await Task.Delay(TimeOfShowingOrder * Constants.OneSecInMilliseconds);
             cloud.RemoveCloud();
         }
@@ -121,6 +127,7 @@ namespace IncredibleGrocery.ClientLogic
 
         public Dictionary<Product, bool> CheckOrder(List<Product> selectedProducts)
         {
+            _stateMachine.SetState(ClientReceivedOrder);
             return _storagesManager.SellStoragePresenter.CheckOrder(selectedProducts, 
                 _order, ref _paidPrice, out _orderIsAllCorrect);
         }
@@ -152,7 +159,7 @@ namespace IncredibleGrocery.ClientLogic
         private void LeaveShop()
         {
             animationManager.SetAnimation(ClientAnimationType.Leaving);
-            _stateMachine.SwitchState(ClientLeaving);
+            _stateMachine.SetState(ClientLeaving);
             LeftFromShop?.Invoke(this);
         }
     }

@@ -11,6 +11,8 @@ namespace IncredibleGrocery.ClientLogic.States
         }
 
         public override void UpdateState()
-        { }
+        {
+            client.ProgressBar.UpdateProgressBar();
+        }
     }
 }

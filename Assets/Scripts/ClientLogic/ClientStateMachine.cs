@@ -5,14 +5,8 @@ namespace IncredibleGrocery.ClientLogic
     public class ClientStateMachine
     {
         public ClientBaseState CurrentState { get; private set; }
-        
-        public void Initialize(ClientBaseState startState)
-        {
-            CurrentState = startState;
-            CurrentState.EnterState();
-        }
 
-        public void SwitchState(ClientBaseState state)
+        public void SetState(ClientBaseState state)
         {
             CurrentState = state;
             CurrentState.EnterState();

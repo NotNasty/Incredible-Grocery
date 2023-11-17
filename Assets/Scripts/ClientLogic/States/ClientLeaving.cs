@@ -4,11 +4,11 @@ namespace IncredibleGrocery.ClientLogic.States
 {
     public class ClientLeaving : ClientBaseState
     {
-        private Vector3 targetExitPosition;
+        private Vector3 _targetExitPosition;
         
         public ClientLeaving(Client client, ClientStateMachine clientStateMachine, Vector3 startPosition) : base(client, clientStateMachine)
         {
-            targetExitPosition = startPosition;
+            _targetExitPosition = startPosition;
         }
         
         public override void EnterState()
@@ -18,7 +18,7 @@ namespace IncredibleGrocery.ClientLogic.States
 
         public override void UpdateState()
         {
-            if (client.MoveClient(targetExitPosition))
+            if (client.MoveClient(_targetExitPosition))
             {
                 Object.Destroy(client.gameObject);
             }
