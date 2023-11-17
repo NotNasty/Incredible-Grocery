@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using IncredibleGrocery.Audio;
-using IncredibleGrocery.ClientLogic.States;
 using IncredibleGrocery.Clouds;
 using IncredibleGrocery.Products;
 using IncredibleGrocery.Storage;
@@ -17,18 +16,6 @@ namespace IncredibleGrocery.ClientLogic
         
         public static int ProductsInOrder { get; private set; }
 
-        #region State Machine
-        
-        private ClientStateMachine _stateMachine;
-        public ClientMovingInQueue ClientMovingInQueue { get; private set; }
-        public ClientOrdering ClientOrdering { get; private set; }
-        public ClientWaitingInQueue ClientWaitingInQueue { get; private set; }
-        public ClientWaitingForOrder ClientWaitingForOrder { get; private set; }
-        public ClientLeaving ClientLeaving { get; private set; }
-        public ClientGoingToSeller ClientGoingToSeller { get; private set; }
-        
-        #endregion
-
         private Vector2 _targetPosition;
         public Vector2 TargetPosition
         {
@@ -39,7 +26,35 @@ namespace IncredibleGrocery.ClientLogic
                     return;
                 
                 _targetPosition = value;
-                _stateMachine.SwitchState(ClientMovingInQueue);
+                State = ClientStateEnum.MovingInQueue;
+            }
+        }
+        
+        private ClientStateEnum _state;
+        private ClientStateEnum State
+        {
+            get => _state;
+            set
+            {
+                _state = value;
+                switch (_state)
+                {
+                    case ClientStateEnum.MovingInQueue:
+                    case ClientStateEnum.GoingToSeller:
+                        animationManager.SetAnimation(ClientAnimationType.Walking);
+                        break;
+                    case ClientStateEnum.Ordering:
+                    case ClientStateEnum.WaitingInQueue:
+                    case ClientStateEnum.WaitingForOrder:
+                    case ClientStateEnum.StopOrder:
+                        animationManager.SetAnimation(ClientAnimationType.Waiting);
+                        break;
+                    case ClientStateEnum.Leaving:
+                        animationManager.SetAnimation(ClientAnimationType.Walking);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -48,57 +63,82 @@ namespace IncredibleGrocery.ClientLogic
         [SerializeField] private Sprite negativeReaction;
         [SerializeField] private int minCountOfOrders;
         [SerializeField] private int maxCountOfOrders;
-        public ClientAnimationManager animationManager;
+        [SerializeField] private ClientAnimationManager animationManager;
 
         private HashSet<Product> _order;
         private List<Product> _products;
         private bool _orderIsAllCorrect = true;
         private StoragesManager _storagesManager;
         private int _paidPrice;
-
-        private const int TimeOfShowingOrder = 5;
+        private Vector2 _startPosition;
+        private ClientProgressBar _progressBar;
+        
+        private const int TimeOfShowingOrder = 3;
 
         public void Init(Vector2 targetPosition, List<Product> products, StoragesManager storagesManager, bool firstInQueue)
         {
             animationManager.Init();
             _products = products;
             _storagesManager = storagesManager;
+            _startPosition = transform.position;
             
-            _stateMachine = new ClientStateMachine();
-            ClientLeaving = new ClientLeaving(this, _stateMachine, transform.position);
-            ClientOrdering = new ClientOrdering(this, _stateMachine);
-            ClientWaitingInQueue = new ClientWaitingInQueue(this, _stateMachine);
-            ClientMovingInQueue = new ClientMovingInQueue(this, _stateMachine);
-            ClientWaitingForOrder = new ClientWaitingForOrder(this, _stateMachine);
-            ClientGoingToSeller = new ClientGoingToSeller(this, _stateMachine);
+            _progressBar = GetComponentInChildren<ClientProgressBar>();
+            _progressBar.WaitingTimeEnded += LeaveOnEndWaitingTime;
             
             TargetPosition = targetPosition;
-            _stateMachine.Initialize(firstInQueue ? ClientGoingToSeller : ClientMovingInQueue);
+            State = firstInQueue ? ClientStateEnum.GoingToSeller : ClientStateEnum.MovingInQueue;
         }
 
         private void Update()
         {
-            _stateMachine.CurrentState.UpdateState();
+            switch (State)
+            {
+                case ClientStateEnum.MovingInQueue:
+                    if (MoveClient(TargetPosition))
+                        State = ClientStateEnum.WaitingInQueue;
+                    break;
+                case ClientStateEnum.Ordering:
+                    OrderAndWait();
+                    break;
+                case ClientStateEnum.WaitingInQueue:
+                    _progressBar.UpdateProgressBar();
+                    break;
+                case ClientStateEnum.WaitingForOrder:
+                    _progressBar.UpdateProgressBar();
+                    break;
+                case ClientStateEnum.Leaving:
+                    if (MoveClient(_startPosition))
+                        Destroy(gameObject);
+                    break;
+                case ClientStateEnum.GoingToSeller:
+                    if (MoveClient(TargetPosition))
+                        State = ClientStateEnum.Ordering;
+                    break;
+                case ClientStateEnum.StopOrder:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public void GoToSeller()
         {
-            if (_stateMachine.CurrentState == ClientWaitingInQueue || _stateMachine.CurrentState == ClientMovingInQueue)
-                _stateMachine.SwitchState(ClientGoingToSeller);
+            if (State is ClientStateEnum.WaitingInQueue or ClientStateEnum.MovingInQueue)
+                State = ClientStateEnum.GoingToSeller;
         }
 
-        public bool MoveClient(Vector2 targetPosition)
+        private bool MoveClient(Vector2 targetPosition)
         {
             transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime);
             return Vector2.Distance(transform.position, targetPosition) < Constants.DestinationToPlayerLimit;
         }
 
-        public async void OrderAndWait()
+        private async void OrderAndWait()
         {
             animationManager.SetAnimation(ClientAnimationType.Waiting);
             var cloud = Instantiate(cloudPrefab, transform);
             _order = OnMakingOrder(cloud);
-            _stateMachine.SwitchState(ClientWaitingForOrder);
+            State = ClientStateEnum.WaitingForOrder;
             await Task.Delay(TimeOfShowingOrder * Constants.OneSecInMilliseconds);
             cloud.RemoveCloud();
         }
@@ -141,7 +181,7 @@ namespace IncredibleGrocery.ClientLogic
             return _paidPrice;
         }
         
-        public void LeaveOnEndWaitingTime()
+        private void LeaveOnEndWaitingTime()
         {
             var cloudManager = Instantiate(cloudPrefab, transform);
             cloudManager.AddImage(negativeReaction);
@@ -152,7 +192,7 @@ namespace IncredibleGrocery.ClientLogic
         private void LeaveShop()
         {
             animationManager.SetAnimation(ClientAnimationType.Leaving);
-            _stateMachine.SwitchState(ClientLeaving);
+            State = ClientStateEnum.Leaving;
             LeftFromShop?.Invoke(this);
         }
     }
