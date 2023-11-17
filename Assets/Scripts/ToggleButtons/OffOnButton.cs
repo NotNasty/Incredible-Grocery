@@ -9,13 +9,13 @@ namespace IncredibleGrocery.ToggleButtons
     [RequireComponent(typeof(Toggle), typeof(Image))]
     public class OffOnButton : MonoBehaviour
     {
-        public event Action<bool> SettingChanged;
-
         private Image _image;
         private Toggle _toggle;
         private Sprite _onImage;
         private Sprite _offImage;
         private TextMeshProUGUI _onOffText;
+        
+        public event Action<bool> SettingChanged;
 
         public void Init(Sprite onImage, Sprite offImage, bool isOn)
         {

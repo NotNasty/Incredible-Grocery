@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using IncredibleGrocery.Money;
 using IncredibleGrocery.Products;
@@ -22,29 +21,6 @@ namespace IncredibleGrocery.Storage.OrderStorage
             var isEnoughMoney = OrderPrice <= MoneyManager.Money;
             _orderView.SetOrderPriceText(OrderPrice, isEnoughMoney);
             View.SetButtonInteractable(SelectedProducts.Count > 0 && isEnoughMoney);
-        }
-
-        public Dictionary<Product, bool> CheckOrder(List<Product> selectedProducts, HashSet<Product> order, ref int price, out bool orderIsAllCorrect)
-        {
-            orderIsAllCorrect = true;
-            var checkedOrder = new Dictionary<Product, bool>();
-            foreach (var selectedProduct in selectedProducts)
-            {
-                selectedProduct.count--;
-                foreach (var orderedProduct in order.Where(product => product.Equals(selectedProduct)))
-                {
-                    checkedOrder.Add(selectedProduct, true);
-                    price += orderedProduct.sellPrice;
-                    break;
-                }
-
-                if (!checkedOrder.ContainsKey(selectedProduct))
-                {
-                    orderIsAllCorrect = false;
-                    checkedOrder.Add(selectedProduct, false);
-                }
-            }
-            return checkedOrder;
         }
 
         public override void OnButtonClicked()

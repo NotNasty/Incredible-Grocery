@@ -10,11 +10,11 @@ namespace IncredibleGrocery.Storage
     {
         [SerializeField] private StorageView sellStorageView;
         [SerializeField] private OrderStorageView orderStorageView;
+
+        private bool _isSellMode = true;
         
         public SellStoragePresenter SellStoragePresenter { get; private set; }
         public OrderStoragePresenter OrderStoragePresenter  { get; private set; }
-
-        private bool _isSellMode = true;
         
         public void Init(ProductsList products, MoneyManager moneyManager)
         {

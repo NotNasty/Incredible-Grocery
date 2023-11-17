@@ -5,9 +5,9 @@ namespace IncredibleGrocery.Money
 {
     public class MoneyManager
     {
-        public static event Action<int> BalanceChanged;
-        
         private int _money;
+        
+        public static event Action<int> BalanceChanged;
 
         public int Money
         {
@@ -26,11 +26,11 @@ namespace IncredibleGrocery.Money
 
         public void AddToBalance(int income)
         {
-            if (income != 0)
-            {
-                Money += income;
-                AudioManager.Instance.PlaySound(income > 0 ? AudioTypeEnum.MoneyEarned : AudioTypeEnum.MoneySpent);
-            }
+            if (income == 0) 
+                return;
+            
+            Money += income;
+            AudioManager.Instance.PlaySound(income > 0 ? AudioTypeEnum.MoneyEarned : AudioTypeEnum.MoneySpent);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace IncredibleGrocery.Storage.SellStorage
             View.SetButtonInteractable(SelectedProducts.Count == Client.ProductsInOrder);
         }
 
-        public Dictionary<Product, bool> CheckOrder(List<Product> selectedProducts, HashSet<Product> order, ref int price, out bool orderIsAllCorrect)
+        public static Dictionary<Product, bool> CheckOrder(List<Product> selectedProducts, HashSet<Product> order, ref int price, out bool orderIsAllCorrect)
         {
             orderIsAllCorrect = true;
             var checkedOrder = new Dictionary<Product, bool>();

@@ -15,6 +15,7 @@ namespace IncredibleGrocery
         
         private SellStoragePresenter _sellStoragePresenter;
         private MoneyManager _moneyManager;
+        
         public Client CurrentClient { get; set; }
 
         public void Init(SellStoragePresenter sellStoragePresenter, MoneyManager moneyManager)

@@ -6,14 +6,13 @@ namespace IncredibleGrocery.Audio
 {
     public class AudioManager : MonoBehaviour
     {
-        public AudioClip music;
-        public AudioAssets audioAssets;
-
-        public AudioSource musicSource;
-        public AudioSource soundSource;
-
         private bool musicOn;
         private bool soundOn;
+        
+        public AudioClip music;
+        public AudioAssets audioAssets;
+        public AudioSource musicSource;
+        public AudioSource soundSource;
         
         public static AudioManager Instance { get; private set; }
         

@@ -4,7 +4,7 @@ namespace IncredibleGrocery.ClientLogic.States
 {
     public class ClientLeaving : ClientBaseState
     {
-        private Vector3 _targetExitPosition;
+        private readonly Vector3 _targetExitPosition;
         
         public ClientLeaving(Client client, ClientStateMachine clientStateMachine, Vector3 startPosition) : base(client, clientStateMachine)
         {

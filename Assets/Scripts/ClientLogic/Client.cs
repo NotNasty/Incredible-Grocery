@@ -5,7 +5,7 @@ using IncredibleGrocery.Audio;
 using IncredibleGrocery.ClientLogic.States;
 using IncredibleGrocery.Clouds;
 using IncredibleGrocery.Products;
-using IncredibleGrocery.Storage;
+using IncredibleGrocery.Storage.SellStorage;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,10 +13,19 @@ namespace IncredibleGrocery.ClientLogic
 {
     public class Client : MonoBehaviour
     {
-        public event Action<Client> LeftFromShop;
+        [SerializeField] private ClientCloud cloudPrefab;
+        [SerializeField] private Sprite positiveReaction;
+        [SerializeField] private Sprite negativeReaction;
+        [SerializeField] private int minCountOfOrders;
+        [SerializeField] private int maxCountOfOrders;
+        [SerializeField] private float speed;
         
-        public static int ProductsInOrder { get; private set; }
-        public ClientProgressBar ProgressBar { get; private set; }
+        private HashSet<Product> _order;
+        private List<Product> _products;
+        private bool _orderIsAllCorrect = true;
+        private int _paidPrice;
+        private const int TimeOfShowingOrder = 5;
+        private Vector2 _targetPosition;
 
         #region State Machine
         
@@ -30,8 +39,12 @@ namespace IncredibleGrocery.ClientLogic
         public ClientReceivedOrder ClientReceivedOrder { get; private set; }
         
         #endregion
-
-        private Vector2 _targetPosition;
+        
+        public ClientAnimationManager animationManager;
+        public event Action<Client> LeftFromShop;
+        
+        public static int ProductsInOrder { get; private set; }
+        public ClientProgressBar ProgressBar { get; private set; }
         public Vector2 TargetPosition
         {
             get => _targetPosition;
@@ -44,28 +57,11 @@ namespace IncredibleGrocery.ClientLogic
                 _stateMachine.SetState(ClientMovingInQueue);
             }
         }
-
-        [SerializeField] private ClientCloud cloudPrefab;
-        [SerializeField] private Sprite positiveReaction;
-        [SerializeField] private Sprite negativeReaction;
-        [SerializeField] private int minCountOfOrders;
-        [SerializeField] private int maxCountOfOrders;
-        [SerializeField] private float speed;
-        public ClientAnimationManager animationManager;
-
-        private HashSet<Product> _order;
-        private List<Product> _products;
-        private bool _orderIsAllCorrect = true;
-        private StoragesManager _storagesManager;
-        private int _paidPrice;
-
-        private const int TimeOfShowingOrder = 5;
-
-        public void Init(Vector2 targetPosition, List<Product> products, StoragesManager storagesManager, bool firstInQueue)
+        
+        public void Init(Vector2 targetPosition, List<Product> products, bool firstInQueue)
         {
             animationManager.Init();
             _products = products;
-            _storagesManager = storagesManager;
             ProgressBar = GetComponentInChildren<ClientProgressBar>();
             
             _stateMachine = new ClientStateMachine();
@@ -128,7 +124,7 @@ namespace IncredibleGrocery.ClientLogic
         public Dictionary<Product, bool> CheckOrder(List<Product> selectedProducts)
         {
             _stateMachine.SetState(ClientReceivedOrder);
-            return _storagesManager.SellStoragePresenter.CheckOrder(selectedProducts, 
+            return SellStoragePresenter.CheckOrder(selectedProducts, 
                 _order, ref _paidPrice, out _orderIsAllCorrect);
         }
 

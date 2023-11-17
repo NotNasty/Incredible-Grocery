@@ -8,12 +8,12 @@ namespace IncredibleGrocery.Storage
     [RequireComponent(typeof(Animator))]
     public class StorageView : MonoBehaviour
     {
-        public event Action SwitchViews;
-        
         [SerializeField] private Button button;
         [SerializeField] private Transform storageGridContent;
         [SerializeField] private ProductButton productItemPrefab;
         [SerializeField] private Button switchModeButton;
+        
+        public event Action SwitchViews;
         
         private Animator _animator;
         private StoragePresenter _storagePresenter;

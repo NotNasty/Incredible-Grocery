@@ -7,13 +7,13 @@ namespace IncredibleGrocery.ClientLogic
 {
     public class ClientProgressBar : MonoBehaviour
     {
-        public event Action WaitingTimeEnded;
-        
         [SerializeField] private Gradient colorGradient;
-        
+
         private float _currentTime;
         private Image _progressImage;
         private int _maxWaitingTime;
+        
+        public event Action WaitingTimeEnded;
         
         private void Start()
         {

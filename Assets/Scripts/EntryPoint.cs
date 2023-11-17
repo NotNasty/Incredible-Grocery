@@ -17,7 +17,6 @@ namespace IncredibleGrocery
         private MoneyManager _moneyManager;
         private StoragesManager _storagesManager;
         private SaveDataManager _saveDataManager;
-        
 
         private void Awake()
         {

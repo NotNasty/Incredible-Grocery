@@ -9,16 +9,16 @@ namespace IncredibleGrocery
 {
     public class ClientQueue : MonoBehaviour
     {
+        [SerializeField] private Transform[] queuePositions;
+        [SerializeField] private int maxClients;
+        [SerializeField] private Client clientPrefab;
+        
         private readonly List<Client> _clients = new();
         private float _timer;
         private int _intervalForNextClient;
         private StoragesManager _storagesManager;
         private Player _player;
         private List<Product> _products;
-        
-        [SerializeField] private Transform[] queuePositions;
-        [SerializeField] private int maxClients;
-        [SerializeField] private Client clientPrefab;
 
         public void Init(List<Product> products, StoragesManager storagesManager, Player player)
         {
@@ -36,8 +36,7 @@ namespace IncredibleGrocery
             {
                 var client = Instantiate(clientPrefab, transform);
                 var isFirstInQueue = _clients.Count == 0;
-                client.Init(queuePositions[_clients.Count].position, _products, _storagesManager,
-                    isFirstInQueue);
+                client.Init(queuePositions[_clients.Count].position, _products, isFirstInQueue);
                 _clients.Add(client);
                 client.LeftFromShop += OnClientLeft;
                 if (isFirstInQueue)
