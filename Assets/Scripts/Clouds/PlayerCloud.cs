@@ -17,7 +17,7 @@ namespace IncredibleGrocery.Clouds
             foreach (var product in checkedOrder)
             {
                 var saleButton = Instantiate(salePrefab, cloudGridContent);
-                saleButton.SetSaleImages(product.Key.productImage, product.Value);
+                saleButton.SetSaleImages(product.Key.ProductImage, product.Value);
                 _saleButtons.Add(saleButton);
             }
         }

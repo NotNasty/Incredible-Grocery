@@ -6,7 +6,7 @@ namespace IncredibleGrocery.Audio
     [Serializable]
     public class Sound
     {
-        public AudioClip audioClip;
-        public AudioTypeEnum audioType;
+        [field: SerializeField] public AudioClip AudioClip { get; private set; }
+        [field:SerializeField]  public AudioTypeEnum AudioType { get; private set; }
     }
 }

@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: AudioAssset
   m_EditorClassIdentifier: 
   sounds:
-  - audioClip: {fileID: 8300000, guid: 1e090207e0a04074ba5df510a8ce88ed, type: 3}
-    audioType: 5
-  - audioClip: {fileID: 8300000, guid: 44d64c3de2a138d40aa0c7a034f061b4, type: 3}
-    audioType: 0
-  - audioClip: {fileID: 8300000, guid: 19220a27dd88b7b4789c6b36f724fd23, type: 3}
-    audioType: 1
-  - audioClip: {fileID: 8300000, guid: 6b74ee20afaf323499036629e9101227, type: 3}
-    audioType: 2
-  - audioClip: {fileID: 8300000, guid: 68595a5c54f64c24897f4fdbb6c61bc9, type: 3}
-    audioType: 3
-  - audioClip: {fileID: 8300000, guid: f9001a4c9fecded44aca1f9a9804ab69, type: 3}
-    audioType: 6
-  - audioClip: {fileID: 8300000, guid: c6dabcb95cf4da7428ffcf0cf58d84fc, type: 3}
-    audioType: 4
+  - <AudioClip>k__BackingField: {fileID: 8300000, guid: 1e090207e0a04074ba5df510a8ce88ed, type: 3}
+    <AudioType>k__BackingField: 5
+  - <AudioClip>k__BackingField: {fileID: 8300000, guid: 44d64c3de2a138d40aa0c7a034f061b4, type: 3}
+    <AudioType>k__BackingField: 0
+  - <AudioClip>k__BackingField: {fileID: 8300000, guid: 19220a27dd88b7b4789c6b36f724fd23, type: 3}
+    <AudioType>k__BackingField: 1
+  - <AudioClip>k__BackingField: {fileID: 8300000, guid: 6b74ee20afaf323499036629e9101227, type: 3}
+    <AudioType>k__BackingField: 2
+  - <AudioClip>k__BackingField: {fileID: 8300000, guid: 68595a5c54f64c24897f4fdbb6c61bc9, type: 3}
+    <AudioType>k__BackingField: 3
+  - <AudioClip>k__BackingField: {fileID: 8300000, guid: f9001a4c9fecded44aca1f9a9804ab69, type: 3}
+    <AudioType>k__BackingField: 6
+  - <AudioClip>k__BackingField: {fileID: 8300000, guid: c6dabcb95cf4da7428ffcf0cf58d84fc, type: 3}
+    <AudioType>k__BackingField: 4

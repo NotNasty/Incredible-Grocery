@@ -6,8 +6,8 @@ namespace IncredibleGrocery.Audio
 {
     public class AudioManager : MonoBehaviour
     {
-        private bool musicOn;
-        private bool soundOn;
+        private bool _musicOn;
+        private bool _soundOn;
         
         public AudioClip music;
         public AudioAssets audioAssets;
@@ -29,7 +29,7 @@ namespace IncredibleGrocery.Audio
 
         private void PlayMusic()
         {
-            if (musicOn)
+            if (_musicOn)
             {
                 musicSource.Play();
             }
@@ -37,25 +37,25 @@ namespace IncredibleGrocery.Audio
 
         public void PlaySound(AudioTypeEnum audioType)
         {
-            if (!soundOn)
+            if (!_soundOn)
                 return;
             
-            var sound = audioAssets.sounds.SingleOrDefault(x => x.audioType == audioType);
+            var sound = audioAssets.sounds.SingleOrDefault(x => x.AudioType == audioType);
             Assert.IsNotNull(sound);
-            soundSource.PlayOneShot(sound.audioClip);
+            soundSource.PlayOneShot(sound.AudioClip);
         }
 
         public void OnOffMusic(bool isMusicOn)
         {
-            musicOn = isMusicOn;
-            musicSource.mute = !musicOn;
+            _musicOn = isMusicOn;
+            musicSource.mute = !_musicOn;
             PlayMusic();
         }
 
         public void OnOffSounds(bool soundsOn)
         {
-            soundOn = soundsOn;
-            soundSource.mute = !soundsOn;
+            _soundOn = soundsOn;
+            soundSource.mute = !_soundOn;
         }
     }
 }

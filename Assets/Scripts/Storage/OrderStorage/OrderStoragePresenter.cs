@@ -6,7 +6,7 @@ namespace IncredibleGrocery.Storage.OrderStorage
 {
     public class OrderStoragePresenter : StoragePresenter
     {
-        private int OrderPrice => SelectedProducts.Sum(x => x.orderPrice);
+        private int OrderPrice => SelectedProducts.Sum(x => x.OrderPrice);
         private readonly OrderStorageView _orderView;
 
         public OrderStoragePresenter(OrderStorageView orderView, ProductsList products, MoneyManager moneyManager) :
@@ -27,7 +27,7 @@ namespace IncredibleGrocery.Storage.OrderStorage
         {
             foreach (var product in  SelectedProducts)
             {
-                product.count++;
+                product.Count++;
             }
             MoneyManager.AddToBalance(-OrderPrice);
             base.OnButtonClicked();

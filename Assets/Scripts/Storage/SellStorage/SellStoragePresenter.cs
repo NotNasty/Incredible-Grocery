@@ -26,11 +26,11 @@ namespace IncredibleGrocery.Storage.SellStorage
             var checkedOrder = new Dictionary<Product, bool>();
             foreach (var selectedProduct in selectedProducts)
             {
-                selectedProduct.count--;
+                selectedProduct.Count--;
                 foreach (var orderedProduct in order.Where(product => product.Equals(selectedProduct)))
                 {
                     checkedOrder.Add(selectedProduct, true);
-                    price += orderedProduct.sellPrice;
+                    price += orderedProduct.SellPrice;
                     break;
                 }
 

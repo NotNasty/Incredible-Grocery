@@ -6,9 +6,10 @@ namespace IncredibleGrocery.Products
     [Serializable]
     public class Product
     {
-        public Sprite productImage;
-        public int sellPrice = 10;
-        public int count = 3;
-        public int orderPrice = 5;
+        [field:SerializeField] public Sprite ProductImage { get; private set; }
+        [field:SerializeField] public int SellPrice { get; private set; }
+        [field:SerializeField] public int OrderPrice { get; private set; }
+        
+        [field: NonSerialized] public int Count { get; set; } = 3;
     }
 }

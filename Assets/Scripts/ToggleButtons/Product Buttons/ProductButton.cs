@@ -20,7 +20,7 @@ namespace IncredibleGrocery.ToggleButtons.Product_Buttons
             Product = product;
             
             Image = GetComponent<Image>();
-            Image.sprite = product.productImage;
+            Image.sprite = product.ProductImage;
             
             Toggle = GetComponent<Toggle>();
             Toggle.onValueChanged.AddListener(OnToggleValueChanged);

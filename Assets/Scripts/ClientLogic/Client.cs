@@ -117,7 +117,7 @@ namespace IncredibleGrocery.ClientLogic
                 var takenProduct = _products[pickedUpProduct];
                 taken.Add(takenProduct);
                 if (taken.Count > previousTakenCount)
-                    cloudManager.AddImage(takenProduct.productImage);
+                    cloudManager.AddImage(takenProduct.ProductImage);
             }
             return taken;
         }

@@ -10,10 +10,10 @@ namespace IncredibleGrocery.ToggleButtons.Product_Buttons
         public override void UpdateProduct()
         {
             if (countText is not null)
-                countText.text = string.Format(Constants.CountProductFormat, Product.count);
+                countText.text = string.Format(Constants.CountProductFormat, Product.Count);
             
-            Image.color = Image.color.ChangeAlphaChanel(Product.count > 0 ? 1 : Constants.InactiveImageTransparency);
-            Toggle.interactable = Product.count > 0;
+            Image.color = Image.color.ChangeAlphaChanel(Product.Count > 0 ? 1 : Constants.InactiveImageTransparency);
+            Toggle.interactable = Product.Count > 0;
         }
     }
 }

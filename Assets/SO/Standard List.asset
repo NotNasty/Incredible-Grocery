@@ -13,83 +13,63 @@ MonoBehaviour:
   m_Name: Standard List
   m_EditorClassIdentifier: 
   products:
-  - productImage: {fileID: 21300000, guid: bcc2097ce04ca2242a7978df59d014a5, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 5bf534730619df748ad234a02e46e9d9, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 87374365c4b12c0428c24111b8243bf2, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: baf24c03b9dc6be4c9f60876b4b1ae5c, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 88940026bf00b0a43889e1e39556d51c, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 4d223d16e8a52b2418f888b8bcd35797, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 9221af33049a0ed4f8d3f5853db797d3, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 0d38e44d93b0f7043bfdcdd4728de1a0, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 7585f695dbb53bf40a8c20d34d9d6a1d, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 758f0c33ebb98b447bd4a826c368f348, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 73e502ca7b0726146b81d89c8ff3c033, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: b736d423afa5b1a4b81008e8b00a5490, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 50bec734718b3b34aa24558757a3a599, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 8892b1d67c103f448b46654a3b1db5f5, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: b74e6bf2de5119540bd62084699e511a, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 0371c49d4e009744cb867e4ae3b3fa31, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: c09e78427cb4846458af8499fe3e56f3, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 69917a07777cc9247bc4b788e735c4e7, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 9465db55ee7f51a44bbb0001a580b1ab, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
-  - productImage: {fileID: 21300000, guid: 3052034ef7eadb14c971a0a4ab962fea, type: 3}
-    sellPrice: 10
-    count: 3
-    orderPrice: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: bcc2097ce04ca2242a7978df59d014a5, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 5bf534730619df748ad234a02e46e9d9, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: baf24c03b9dc6be4c9f60876b4b1ae5c, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 87374365c4b12c0428c24111b8243bf2, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 3052034ef7eadb14c971a0a4ab962fea, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 4d223d16e8a52b2418f888b8bcd35797, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 9221af33049a0ed4f8d3f5853db797d3, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 88940026bf00b0a43889e1e39556d51c, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 0d38e44d93b0f7043bfdcdd4728de1a0, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 7585f695dbb53bf40a8c20d34d9d6a1d, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 0371c49d4e009744cb867e4ae3b3fa31, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 758f0c33ebb98b447bd4a826c368f348, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 73e502ca7b0726146b81d89c8ff3c033, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 8892b1d67c103f448b46654a3b1db5f5, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: b736d423afa5b1a4b81008e8b00a5490, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 50bec734718b3b34aa24558757a3a599, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: c09e78427cb4846458af8499fe3e56f3, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: b74e6bf2de5119540bd62084699e511a, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 69917a07777cc9247bc4b788e735c4e7, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
+  - <ProductImage>k__BackingField: {fileID: 21300000, guid: 9465db55ee7f51a44bbb0001a580b1ab, type: 3}
+    <SellPrice>k__BackingField: 10
+    <OrderPrice>k__BackingField: 5
