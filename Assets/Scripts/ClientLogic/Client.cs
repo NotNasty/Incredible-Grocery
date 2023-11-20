@@ -98,7 +98,6 @@ namespace IncredibleGrocery.ClientLogic
 
         public async void OrderAndWait()
         {
-            animationManager.SetAnimation(ClientAnimationType.Waiting);
             var cloud = Instantiate(cloudPrefab, transform);
             _order = OnMakingOrder(cloud);
             _stateMachine.SetState(ClientWaitingForOrder);

@@ -25,7 +25,7 @@ namespace IncredibleGrocery.Money
 
         private void OnDisable()
         {
-            MoneyManager.BalanceChanged += ChangeMoneyBalance;
+            MoneyManager.BalanceChanged -= ChangeMoneyBalance;
         }
     }
 }

@@ -18,41 +18,29 @@ namespace IncredibleGrocery.ToggleButtons.Product_Buttons
         public void SetProduct(Product product)
         {
             Product = product;
-            
+
             Image = GetComponent<Image>();
             Image.sprite = product.ProductImage;
-            
+
             Toggle = GetComponent<Toggle>();
-            Toggle.onValueChanged.AddListener(OnToggleValueChanged);
+            Toggle.onValueChanged.AddListener(toggleOn => 
+            {
+                ProductClicked?.Invoke(toggleOn, Product);
+                AudioManager.Instance.PlaySound(AudioTypeEnum.ProductSelected);
+            });
 
             UpdateProduct();
         }
 
-        private void OnToggleValueChanged(bool toggleOn)
-        {
-            OnCheckProduct(toggleOn);
-        }
-
         public void UncheckProduct()
         {
-            if (Toggle.isOn)
-            {
-                Toggle.onValueChanged.RemoveListener(OnToggleValueChanged);
-                Toggle.isOn = false;
-                OnCheckProduct(false, false);
-                Toggle.onValueChanged.AddListener(OnToggleValueChanged);
-            }
+            if (!Toggle.isOn)
+                return;
+            
+            Toggle.SetIsOnWithoutNotify(false);
+            ProductClicked?.Invoke(false, Product);
         }
 
         public abstract void UpdateProduct();
-
-        private void OnCheckProduct(bool toggleOn, bool playSound = true)
-        {
-            ProductClicked?.Invoke(toggleOn, Product);
-            if (playSound)
-            {
-                AudioManager.Instance.PlaySound(AudioTypeEnum.ProductSelected);
-            }
-        }
     }
 }

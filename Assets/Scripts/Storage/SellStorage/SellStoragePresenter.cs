@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using IncredibleGrocery.ClientLogic;
 using IncredibleGrocery.Money;
 using IncredibleGrocery.Products;
@@ -27,14 +26,12 @@ namespace IncredibleGrocery.Storage.SellStorage
             foreach (var selectedProduct in selectedProducts)
             {
                 selectedProduct.Count--;
-                foreach (var orderedProduct in order.Where(product => product.Equals(selectedProduct)))
+                if (order.Contains(selectedProduct))
                 {
                     checkedOrder.Add(selectedProduct, true);
-                    price += orderedProduct.SellPrice;
-                    break;
+                    price += selectedProduct.SellPrice;
                 }
-
-                if (!checkedOrder.ContainsKey(selectedProduct))
+                else
                 {
                     orderIsAllCorrect = false;
                     checkedOrder.Add(selectedProduct, false);

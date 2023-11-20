@@ -25,7 +25,7 @@ namespace IncredibleGrocery.ToggleButtons
 
         public void ReactionReveal()
         {
-            _image.color = _image.color.ChangeAlphaChanel(Constants.InactiveImageTransparency);
+            _image.SetAlphaChanel(Constants.InactiveImageTransparency);
             positiveReaction.gameObject.SetActive(_isRightSale);
             negativeReaction.gameObject.SetActive(!_isRightSale);
         }

@@ -25,7 +25,8 @@ namespace IncredibleGrocery
             _moneyManager = new MoneyManager(_saveDataManager.GetMoneyCount());
             storagesManager.Init(products, _moneyManager);
             player.Init(storagesManager.SellStoragePresenter, _moneyManager);
-            clientQueue.Init(products.products, storagesManager, player);
+            clientQueue.Init(products.products, player);
+            storagesManager.ShowSellStorage();
         }
     }
 }

@@ -16,17 +16,13 @@ namespace IncredibleGrocery
         private readonly List<Client> _clients = new();
         private float _timer;
         private int _intervalForNextClient;
-        private StoragesManager _storagesManager;
         private Player _player;
         private List<Product> _products;
 
-        public void Init(List<Product> products, StoragesManager storagesManager, Player player)
+        public void Init(List<Product> products, Player player)
         {
             _products = products;
-            _storagesManager = storagesManager;
             _player = player;
-            
-            _storagesManager.ShowSellStorage();
         }
         
         private void Update()
@@ -51,22 +47,18 @@ namespace IncredibleGrocery
 
         private void OnClientLeft(Client clientLeft)
         {
-            if (_clients == null) 
-                return;
-
             _clients.Remove(clientLeft);
+            
+            if (_clients.Count == 0)
+                return;
 
             for (var i = 0; i < _clients.Count; i++)
             {
                 _clients[i].TargetPosition = queuePositions[i].position;
             }
 
-            var curClient = _clients.FirstOrDefault();
-            if (curClient is not null)
-            {
-                curClient.GoToSeller();
-                _player.CurrentClient = curClient;
-            }
+            _clients[0].GoToSeller(); 
+            _player.CurrentClient = _clients[0];
         }
     }
 }

@@ -12,7 +12,7 @@ namespace IncredibleGrocery.ToggleButtons.Product_Buttons
             if (countText is not null)
                 countText.text = string.Format(Constants.CountProductFormat, Product.Count);
             
-            Image.color = Image.color.ChangeAlphaChanel(Product.Count > 0 ? 1 : Constants.InactiveImageTransparency);
+            Image.SetAlphaChanel(Product.Count > 0 ? 1 : Constants.InactiveImageTransparency);
             Toggle.interactable = Product.Count > 0;
         }
     }
