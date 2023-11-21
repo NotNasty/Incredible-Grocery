@@ -28,6 +28,7 @@ namespace IncredibleGrocery
 
         public const int OneSecInMilliseconds = 1000;
         public const string MoneyDisplayFormat = "${0}";
+        public const string ToastNotificationFormat = "{0}${1}";
         public const string CountProductFormat = "x{0}";
         public const float DestinationToPlayerLimit = 0.2f;
         public const float InactiveImageTransparency = 0.3f;
