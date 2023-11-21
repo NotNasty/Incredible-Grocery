@@ -33,7 +33,7 @@ namespace IncredibleGrocery.Settings
             return _saveData.MoneyCount;
         }
 
-        private void SaveMoneyData(int moneyCount)
+        private void SaveMoneyData(int moneyCount, int moneyDif)
         {
             if (_saveData.MoneyCount != moneyCount)
             {

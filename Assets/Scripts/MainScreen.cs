@@ -8,13 +8,15 @@ namespace IncredibleGrocery
 {
     public class MainScreen : MonoBehaviour
     {
-        [SerializeField] private MoneyView moneyView;
+        [SerializeField] private MainBalanceView moneyView;
         [SerializeField] private Button settingsButton;
         [SerializeField] private SettingsPanel settingsPanel;
+        [SerializeField] private ToastNotificationVIew notification;
 
         public void Init(SaveDataManager saveDataManager)
         {
             moneyView.Init();
+            notification.Init();
             settingsPanel.Init(saveDataManager);
             settingsButton.onClick.AddListener(OnSettingButtonClick);
         }

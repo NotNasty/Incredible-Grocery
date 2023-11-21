@@ -3,14 +3,17 @@ using UnityEngine;
 
 namespace IncredibleGrocery.Money
 {
-    [RequireComponent(typeof(TextMeshProUGUI))]
-    public class MoneyView : MonoBehaviour
+    [RequireComponent(typeof(CanvasGroup))]
+    public abstract class MoneyView : MonoBehaviour
     {
         private TextMeshProUGUI _moneyText;
+        
+        protected CanvasGroup CanvasGroup { get; private set; }
 
-        public void Init()
+        public virtual void Init()
         {
-            _moneyText = GetComponent<TextMeshProUGUI>();
+            _moneyText = GetComponentInChildren<TextMeshProUGUI>();
+            CanvasGroup = GetComponent<CanvasGroup>();
         }
 
         private void OnEnable()
@@ -18,9 +21,11 @@ namespace IncredibleGrocery.Money
             MoneyManager.BalanceChanged += ChangeMoneyBalance;
         }
 
-        private void ChangeMoneyBalance(int moneyBalance)
+        protected abstract void ChangeMoneyBalance(int moneyBalance, int moneyDif);
+        
+        protected void SetMoneyBalance(string moneyText)
         {
-            _moneyText.text = string.Format(Constants.MoneyDisplayFormat, moneyBalance);
+            _moneyText.text = moneyText;
         }
 
         private void OnDisable()
