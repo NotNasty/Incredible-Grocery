@@ -26,6 +26,7 @@ namespace IncredibleGrocery.ClientLogic
         private int _paidPrice;
         private const int TimeOfShowingOrder = 5;
         private Vector2 _targetPosition;
+        private ClientCloud _cloud;
 
         #region State Machine
         
@@ -98,11 +99,11 @@ namespace IncredibleGrocery.ClientLogic
 
         public async void OrderAndWait()
         {
-            var cloud = Instantiate(cloudPrefab, transform);
-            _order = OnMakingOrder(cloud);
+            _cloud = Instantiate(cloudPrefab, transform);
+            _order = OnMakingOrder(_cloud);
             _stateMachine.SetState(ClientWaitingForOrder);
             await Task.Delay(TimeOfShowingOrder * Constants.OneSecInMilliseconds);
-            cloud.RemoveCloud();
+            await _cloud.RemoveCloudAsync();
         }
 
         private HashSet<Product> OnMakingOrder(ClientCloud cloudManager)
@@ -128,17 +129,20 @@ namespace IncredibleGrocery.ClientLogic
                 _order, ref _paidPrice, out _orderIsAllCorrect);
         }
 
-        public int ReactAtSaleOffer()
+        public async Task<int> ReactAtSaleOfferAsync()
         {
-            var cloudManager = Instantiate(cloudPrefab, transform);
+            if (_cloud != null)
+                await _cloud.RemoveCloudAsync();
+            
+            _cloud = Instantiate(cloudPrefab, transform);
             if (_orderIsAllCorrect)
             {
-                cloudManager.AddImage(positiveReaction);
+                _cloud.AddImage(positiveReaction);
                 _paidPrice *= 2;
             }
             else
             {
-                cloudManager.AddImage(negativeReaction);
+                _cloud.AddImage(negativeReaction);
             }
             LeaveShop();
             return _paidPrice;

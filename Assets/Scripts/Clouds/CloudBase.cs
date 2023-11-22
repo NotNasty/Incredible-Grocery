@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DG.Tweening;
 using IncredibleGrocery.Audio;
 using UnityEngine;
@@ -17,27 +18,26 @@ namespace IncredibleGrocery.Clouds
         {
             AudioManager.Instance.PlaySound(AudioTypeEnum.CloudAppeared);
             transform.localScale = Vector3.zero;
-            PlayAnimation(true);
+            PlayAnimationAsync(true);
         }
         
-        public void RemoveCloud()
+        public async Task RemoveCloudAsync()
         {
             AudioManager.Instance.PlaySound(AudioTypeEnum.CloudDisappeared);
-            PlayAnimation(false);
+            await PlayAnimationAsync(false);
         }
 
-        private void PlayAnimation(bool appear)
+        private async Task PlayAnimationAsync(bool appear)
         {
-            var sequence = DOTween.Sequence();
             var ease = appear ? Ease.OutBack : Ease.InBack;
-            
-            sequence.Append(transform.DOScale(appear ? appearedCloudScale : Vector3.zero, AnimationDuration)
-                .SetEase(ease));
-            sequence.Join(transform.DORotate(appear ? appearedCloudRotation :disappearedCloudScale, AnimationDuration)
-                .SetEase(ease));
-            
-            if (!appear)
-                sequence.OnComplete(() => Destroy(gameObject));
+
+            await DOTween.Sequence().Append(transform.DOScale(appear ? appearedCloudScale : Vector3.zero, AnimationDuration)
+                .SetEase(ease)).Join(transform
+                .DORotate(appear ? appearedCloudRotation : disappearedCloudScale, AnimationDuration)
+                .SetEase(ease)).OnComplete(() =>
+                {
+                    if (!appear) Destroy(gameObject);
+                }).AsyncWaitForCompletion();
         }
     }
 }

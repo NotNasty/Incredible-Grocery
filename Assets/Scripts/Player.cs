@@ -43,9 +43,9 @@ namespace IncredibleGrocery
             await Task.Delay(Constants.OneSecInMilliseconds);
             cloud.RevealReaction();
             await Task.Delay(Constants.OneSecInMilliseconds);
-            _moneyManager.AddToBalance(CurrentClient.ReactAtSaleOffer());
+            _moneyManager.AddToBalance(await CurrentClient.ReactAtSaleOfferAsync());
             await Task.Delay(Constants.OneSecInMilliseconds);
-            cloud.RemoveCloud();
+            await cloud.RemoveCloudAsync();
         }
     }
 }
