@@ -2,9 +2,19 @@ namespace IncredibleGrocery.Money
 {
     public class MainBalanceView : MoneyView
     {
-        protected override void ChangeMoneyBalance(int moneyBalance, int moneyDif)
+        private void OnEnable()
         {
-            SetMoneyBalance(string.Format(Constants.MoneyDisplayFormat, moneyBalance));
+            MoneyManager.BalanceChanged += ChangeMoneyBalance;
+        }
+        
+        private void ChangeMoneyBalance(int moneyBalance)
+        {
+            SetMoneyText(string.Format(Constants.MoneyDisplayFormat, moneyBalance));
+        }
+
+        private void OnDisable()
+        {
+            MoneyManager.BalanceChanged -= ChangeMoneyBalance;
         }
     }
 }

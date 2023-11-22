@@ -1,3 +1,4 @@
+using System;
 using IncredibleGrocery.Audio;
 
 namespace IncredibleGrocery.Money
@@ -6,16 +7,16 @@ namespace IncredibleGrocery.Money
     {
         private int _money;
 
-        public delegate void OnBalanceChanged(int newMoneyBalance, int moneyDifference);
-        public static event OnBalanceChanged BalanceChanged;
+        public static event Action<int> IncomeCame;
+        public static event Action<int> BalanceChanged;
 
         public int Money
         {
             get => _money;
             private set
             {
-                BalanceChanged?.Invoke(value, value-_money);
                 _money = value;
+                BalanceChanged?.Invoke(_money);
             }
         }
 
@@ -30,6 +31,7 @@ namespace IncredibleGrocery.Money
                 return;
             
             Money += income;
+            IncomeCame?.Invoke(income);
             AudioManager.Instance.PlaySound(income > 0 ? AudioTypeEnum.MoneyEarned : AudioTypeEnum.MoneySpent);
         }
     }

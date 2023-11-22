@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace IncredibleGrocery.Money
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public class ToastNotificationVIew : MoneyView
     {
+        private CanvasGroup _canvasGroup;
         private RectTransform _rectTransform;
 
         private const int HidePositionY = 110;
@@ -21,29 +23,39 @@ namespace IncredibleGrocery.Money
         public override void Init()
         {
             base.Init();
+            _canvasGroup = GetComponent<CanvasGroup>();
             _rectTransform = GetComponent<RectTransform>();
             _rectTransform.anchoredPosition = new Vector2(_rectTransform.anchoredPosition.x, HidePositionY);
         }
+        
+        private void OnEnable()
+        {
+            MoneyManager.IncomeCame += ToastNotification;
+        }
 
-        protected override void ChangeMoneyBalance(int moneyBalance, int moneyDif)
+        private void ToastNotification(int moneyDif)
         {
             if (moneyDif == 0)
                 return;
             
-            SetMoneyBalance(string.Format(Constants.ToastNotificationFormat, moneyDif > 0 ? Plus : Minus, 
+            SetMoneyText(string.Format(Constants.ToastNotificationFormat, moneyDif > 0 ? Plus : Minus, 
                 Mathf.Abs(moneyDif)));
             PlayAnimation();
         }
 
         private void PlayAnimation()
         {
-            var sequence = DOTween.Sequence();
-            sequence.Append( _rectTransform.DOAnchorPosY(ShowPositionY, ShowAnimationDuration)
-                    .SetEase(Ease.InOutExpo)).SetEase(Ease.InOutSine);
-            sequence.Join(CanvasGroup.DOFade(ShowAlpha, ShowAnimationDuration));
-            sequence.Append( _rectTransform.DOAnchorPosY(HidePositionY, HideAnimationDuration)
-                .SetEase(Ease.InOutExpo)).SetEase(Ease.InOutSine);
-            sequence.Join(CanvasGroup.DOFade(HideAlpha, HideAnimationDuration));
+            DOTween.Sequence().Append( _rectTransform.DOAnchorPosY(ShowPositionY, ShowAnimationDuration)
+                    .SetEase(Ease.InOutExpo)).SetEase(Ease.InOutSine)
+                    .Join(_canvasGroup.DOFade(ShowAlpha, ShowAnimationDuration))
+                    .Append( _rectTransform.DOAnchorPosY(HidePositionY, HideAnimationDuration)
+                    .SetEase(Ease.InOutExpo)).SetEase(Ease.InOutSine)
+                    .Join(_canvasGroup.DOFade(HideAlpha, HideAnimationDuration));
+        }
+
+        private void OnDisable()
+        {
+            MoneyManager.BalanceChanged -= ToastNotification;
         }
     }
 }
