@@ -13,6 +13,8 @@ namespace IncredibleGrocery
         [SerializeField] private ClientQueue clientQueue;
         [SerializeField] private StoragesManager storagesManager;
         [SerializeField] private MainScreen mainScreen;
+        [SerializeField] private SettingsPanelPresenter settingsPanelPresenter;
+
 
         private MoneyManager _moneyManager;
         private StoragesManager _storagesManager;
@@ -21,7 +23,8 @@ namespace IncredibleGrocery
         private void Awake()
         {
             _saveDataManager = new SaveDataManager();
-            mainScreen.Init(_saveDataManager);
+            settingsPanelPresenter.Init(_saveDataManager);
+            mainScreen.Init(settingsPanelPresenter);
             _moneyManager = new MoneyManager(_saveDataManager.GetMoneyCount());
             storagesManager.Init(products, _moneyManager);
             player.Init(storagesManager.SellStoragePresenter, _moneyManager);

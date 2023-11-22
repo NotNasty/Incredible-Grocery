@@ -422,7 +422,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moneyView: {fileID: 1911903905}
   settingsButton: {fileID: 1851811070}
-  settingsPanel: {fileID: 1198444075}
   notification: {fileID: 2054368522}
 --- !u!1 &225017048
 GameObject:
@@ -3611,6 +3610,7 @@ GameObject:
   - component: {fileID: 1198444072}
   - component: {fileID: 1198444075}
   - component: {fileID: 1198444074}
+  - component: {fileID: 1198444076}
   - component: {fileID: 1198444073}
   m_Layer: 5
   m_Name: Settings
@@ -3695,6 +3695,18 @@ MonoBehaviour:
   musicToggle: {fileID: 983638750}
   onSprite: {fileID: 21300000, guid: 8607518f8b7f98145b592f6ac58a5768, type: 3}
   offSprite: {fileID: 21300000, guid: dd47efb6acc1cf64abf87dfdc4f9f94f, type: 3}
+--- !u!114 &1198444076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198444071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda9b05b9d1a49fdbd8aa17ce61334c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1220958351
 GameObject:
   m_ObjectHideFlags: 0
@@ -6076,6 +6088,7 @@ MonoBehaviour:
   clientQueue: {fileID: 1398054902}
   storagesManager: {fileID: 272630126}
   mainScreen: {fileID: 130832377}
+  settingsPanelPresenter: {fileID: 1198444076}
 --- !u!4 &2109643118
 Transform:
   m_ObjectHideFlags: 0

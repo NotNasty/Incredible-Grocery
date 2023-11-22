@@ -1,48 +1,38 @@
 using IncredibleGrocery.ToggleButtons;
 using UnityEngine;
-using UnityEngine.UI;
 using IncredibleGrocery.Audio;
 
 namespace IncredibleGrocery.Settings
 {
-    public class SettingsPanel : MonoBehaviour
+    public class SettingsPanelPresenter : MonoBehaviour
     {
-        [Header("Buttons")]
-        [SerializeField] private Button saveButton;
-        [SerializeField] private OffOnButton soundToggle;
-        [SerializeField] private OffOnButton musicToggle;
-
-        [Header("Sprites")]
-        [SerializeField] private Sprite onSprite;
-        [SerializeField] private Sprite offSprite;
-
+        private SettingsPanelView _view;
         private SaveDataManager _saveDataManager;
         private SettingsData _settingsData;
 
+        private OffOnButton _soundOn;
+        private OffOnButton _soundOff;
+        
         private void OnEnable()
         {
             Time.timeScale = 0;
-            saveButton.onClick.AddListener(OnSaveClick);
-            soundToggle.SettingChanged += ChangeSoundState;
-            musicToggle.SettingChanged += ChangeMusicState;
         }
 
         public void Init(SaveDataManager saveDataManager)
         {
-            SetActive(false);
-            
+            _view = GetComponent<SettingsPanelView>();
             _saveDataManager = saveDataManager;
-            
             _settingsData = _saveDataManager.GetSettingsData();
-            soundToggle.Init(onSprite, offSprite, _settingsData.SoundsOn);
-            musicToggle.Init(onSprite, offSprite, _settingsData.MusicOn);
+            
+            var toggleButtons = _view.Init(this, _settingsData.SoundsOn, _settingsData.MusicOn);
+            _soundOn = toggleButtons.SoundsButton;
+            _soundOff = toggleButtons.MusicButton;
+            
+            _soundOn.SettingChanged += ChangeSoundState;
+            _soundOff.SettingChanged += ChangeMusicState;
+            
             ChangeSoundState(_settingsData.SoundsOn);
             ChangeMusicState(_settingsData.MusicOn);
-        }
-
-        public void SetActive(bool activate)
-        {
-            gameObject.SetActive(activate);
         }
 
         private void ChangeSoundState(bool isOn)
@@ -57,19 +47,21 @@ namespace IncredibleGrocery.Settings
             AudioManager.Instance.OnOffMusic(_settingsData.MusicOn);
         }
 
-        private void OnSaveClick()
+        public void OnSaveClick()
         {
             _saveDataManager.SaveSettingsData(_settingsData);
-            SetActive(false);
+            _view.SetActive(false);
             AudioManager.Instance.PlaySound(AudioTypeEnum.ButtonClicked);
         }
 
+        public void ShowSettingPanel()
+        {
+            _view.SetActive(true);
+        }
+        
         private void OnDisable()
         {
             Time.timeScale = 1;
-            saveButton.onClick.RemoveListener(OnSaveClick);
-            soundToggle.SettingChanged -= ChangeSoundState;
-            musicToggle.SettingChanged -= ChangeMusicState;
         }
     }
 

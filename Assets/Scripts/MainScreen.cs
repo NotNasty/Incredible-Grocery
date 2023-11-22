@@ -10,20 +10,21 @@ namespace IncredibleGrocery
     {
         [SerializeField] private MainBalanceView moneyView;
         [SerializeField] private Button settingsButton;
-        [SerializeField] private SettingsPanel settingsPanel;
         [SerializeField] private ToastNotificationVIew notification;
 
-        public void Init(SaveDataManager saveDataManager)
+        private SettingsPanelPresenter _settingsPanel;
+        
+        public void Init(SettingsPanelPresenter settingsPanelView)
         {
             moneyView.Init();
             notification.Init();
-            settingsPanel.Init(saveDataManager);
+            _settingsPanel = settingsPanelView;
             settingsButton.onClick.AddListener(OnSettingButtonClick);
         }
 
         private void OnSettingButtonClick()
         {
-            settingsPanel.SetActive(true);
+            _settingsPanel.ShowSettingPanel();
             AudioManager.Instance.PlaySound(AudioTypeEnum.ButtonClicked);
         }
     }
