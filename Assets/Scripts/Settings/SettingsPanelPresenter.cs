@@ -1,6 +1,7 @@
 using IncredibleGrocery.ToggleButtons;
 using UnityEngine;
 using IncredibleGrocery.Audio;
+using Zenject;
 
 namespace IncredibleGrocery.Settings
 {
@@ -18,6 +19,7 @@ namespace IncredibleGrocery.Settings
             Time.timeScale = 0;
         }
 
+        [Inject]
         public void Init(SaveDataManager saveDataManager)
         {
             _view = GetComponent<SettingsPanelView>();

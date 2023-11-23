@@ -3,6 +3,7 @@ using IncredibleGrocery.Products;
 using IncredibleGrocery.Storage.OrderStorage;
 using IncredibleGrocery.Storage.SellStorage;
 using UnityEngine;
+using Zenject;
 
 namespace IncredibleGrocery.Storage
 {
@@ -15,7 +16,13 @@ namespace IncredibleGrocery.Storage
         
         public SellStoragePresenter SellStoragePresenter { get; private set; }
         public OrderStoragePresenter OrderStoragePresenter  { get; private set; }
-        
+
+        private void Start()
+        {
+            sellStorageView.ShowHideStorage(true);
+        }
+
+        [Inject]
         public void Init(ProductsList products, MoneyManager moneyManager)
         {
             SellStoragePresenter = new SellStoragePresenter(sellStorageView, products, moneyManager);
@@ -30,11 +37,6 @@ namespace IncredibleGrocery.Storage
             _isSellMode = !_isSellMode;
             sellStorageView.ShowHideStorage(_isSellMode);
             orderStorageView.ShowHideStorage(!_isSellMode);
-        }
-
-        public void ShowSellStorage()
-        {
-            sellStorageView.ShowHideStorage(true);
         }
     }
 }

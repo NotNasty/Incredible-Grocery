@@ -1,14 +1,16 @@
 using System;
 using IncredibleGrocery.Audio;
+using IncredibleGrocery.Settings;
 
 namespace IncredibleGrocery.Money
 {
     public class MoneyManager
     {
         private int _money;
+        private SaveDataManager _saveDataManager;
 
         public static event Action<int> IncomeCame;
-        public static event Action<int> BalanceChanged;
+        public event Action<int> BalanceChanged;
 
         public int Money
         {
@@ -17,12 +19,14 @@ namespace IncredibleGrocery.Money
             {
                 _money = value;
                 BalanceChanged?.Invoke(_money);
+                _saveDataManager.SaveMoneyData(_money);
             }
         }
 
-        public MoneyManager(int moneyCount)
+        public MoneyManager(SaveDataManager saveDataManager)
         {
-            Money = moneyCount;
+            _saveDataManager = saveDataManager;
+            Money = _saveDataManager.GetMoneyCount();
         }
 
         public void AddToBalance(int income)

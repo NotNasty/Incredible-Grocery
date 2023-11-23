@@ -112,7 +112,7 @@ namespace IncredibleGrocery.ClientLogic
             var taken = new HashSet<Product>();
             while (taken.Count < ProductsInOrder)
             {
-                int pickedUpProduct = Random.Range(0, _products.Count - 1);
+                int pickedUpProduct = Random.Range(0, _products.Count);
                 int previousTakenCount = taken.Count;
                 var takenProduct = _products[pickedUpProduct];
                 taken.Add(takenProduct);

@@ -4,34 +4,32 @@ using UnityEngine.Assertions;
 
 namespace IncredibleGrocery.Audio
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioManager
     {
         private bool _musicOn;
         private bool _soundOn;
-        
-        public AudioClip music;
-        public AudioAssets audioAssets;
-        public AudioSource musicSource;
-        public AudioSource soundSource;
+
+        private readonly AudioAssets _audioAssets;
+        private readonly AudioSource _musicSource;
+        private readonly AudioSource _soundSource;
         
         public static AudioManager Instance { get; private set; }
         
-        private void Awake()
+        public AudioManager(AudioClip music, AudioAssets audioAssets, AudioSource musicSource, AudioSource soundSource)
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-
-            musicSource.clip = music;
+            Instance ??= this;
+            
+            _audioAssets = audioAssets;
+            _musicSource = musicSource;
+            _soundSource = soundSource;
+            _musicSource.clip = music;
         }
 
         private void PlayMusic()
         {
             if (_musicOn)
             {
-                musicSource.Play();
+                _musicSource.Play();
             }
         }
 
@@ -40,22 +38,22 @@ namespace IncredibleGrocery.Audio
             if (!_soundOn)
                 return;
             
-            var sound = audioAssets.sounds.SingleOrDefault(x => x.AudioType == audioType);
+            var sound = _audioAssets.sounds.SingleOrDefault(x => x.AudioType == audioType);
             Assert.IsNotNull(sound);
-            soundSource.PlayOneShot(sound.AudioClip);
+            _soundSource.PlayOneShot(sound.AudioClip);
         }
 
         public void OnOffMusic(bool isMusicOn)
         {
             _musicOn = isMusicOn;
-            musicSource.mute = !_musicOn;
+            _musicSource.mute = !_musicOn;
             PlayMusic();
         }
 
         public void OnOffSounds(bool soundsOn)
         {
             _soundOn = soundsOn;
-            soundSource.mute = !_soundOn;
+            _soundSource.mute = !_soundOn;
         }
     }
 }

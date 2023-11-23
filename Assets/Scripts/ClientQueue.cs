@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using IncredibleGrocery.ClientLogic;
 using IncredibleGrocery.Products;
-using IncredibleGrocery.Storage;
 using UnityEngine;
+using Zenject;
 
 namespace IncredibleGrocery
 {
@@ -19,9 +18,10 @@ namespace IncredibleGrocery
         private Player _player;
         private List<Product> _products;
 
-        public void Init(List<Product> products, Player player)
+        [Inject]
+        public void Init(ProductsList products, Player player)
         {
-            _products = products;
+            _products = products.products;
             _player = player;
         }
         

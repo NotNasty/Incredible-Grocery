@@ -4,8 +4,10 @@ using IncredibleGrocery.ClientLogic;
 using IncredibleGrocery.Clouds;
 using IncredibleGrocery.Money;
 using IncredibleGrocery.Products;
+using IncredibleGrocery.Storage;
 using IncredibleGrocery.Storage.SellStorage;
 using UnityEngine;
+using Zenject;
 
 namespace IncredibleGrocery
 {
@@ -27,9 +29,10 @@ namespace IncredibleGrocery
             }
         }
 
-        public void Init(SellStoragePresenter sellStoragePresenter, MoneyManager moneyManager)
+        [Inject]
+        public void Init(StoragesManager storagesManager, MoneyManager moneyManager)
         {
-            _sellStoragePresenter = sellStoragePresenter;
+            _sellStoragePresenter = storagesManager.SellStoragePresenter;
             _moneyManager = moneyManager;
             
             _sellStoragePresenter.StartSaleProducts += SellAsync;

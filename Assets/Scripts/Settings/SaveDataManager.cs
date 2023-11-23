@@ -1,10 +1,9 @@
 using System;
-using IncredibleGrocery.Money;
 using UnityEngine;
 
 namespace IncredibleGrocery.Settings
 {
-    public class SaveDataManager : IDisposable
+    public class SaveDataManager
     {
         private SaveData _saveData;
 
@@ -12,8 +11,6 @@ namespace IncredibleGrocery.Settings
         {
             _saveData = new SaveData();
             LoadSavedData();
-
-            MoneyManager.BalanceChanged += SaveMoneyData;
         }
 
         private void LoadSavedData()
@@ -33,7 +30,7 @@ namespace IncredibleGrocery.Settings
             return _saveData.MoneyCount;
         }
 
-        private void SaveMoneyData(int moneyCount)
+        public void SaveMoneyData(int moneyCount)
         {
             if (_saveData.MoneyCount != moneyCount)
             {
@@ -52,11 +49,6 @@ namespace IncredibleGrocery.Settings
                 PlayerPrefs.SetInt(Constants.SoundsOnSettingName, Convert.ToInt32(_saveData.SettingsData.SoundsOn));
                 PlayerPrefs.Save();
             }
-        }
-
-        public void Dispose()
-        {
-            MoneyManager.BalanceChanged -= SaveMoneyData;
         }
     }
 

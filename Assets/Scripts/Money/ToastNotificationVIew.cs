@@ -55,7 +55,7 @@ namespace IncredibleGrocery.Money
 
         private void OnDisable()
         {
-            MoneyManager.BalanceChanged -= ToastNotification;
+            MoneyManager.IncomeCame -= ToastNotification;
         }
     }
 }
